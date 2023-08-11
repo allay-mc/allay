@@ -1,0 +1,20 @@
+"$schema" = "todo"
+
+[project.name]
+en-us = "My Allay Project"
+
+[project.description]
+en-us = "This is the decription of my project."
+
+[project]
+version = "0.1.0"
+authors = []
+min-engine-version = "1.16.0"
+
+[localization]
+primary-language = "en-us"
+
+[scripts]
+base-path = "scripts/"
+pre = []
+post = []

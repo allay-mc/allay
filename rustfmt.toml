@@ -1,0 +1,7 @@
+newline_style = "Unix"
+normalize_comments = true
+reorder_impl_items = true
+group_imports = "StdExternalCrate"
+trailing_comma = "Always"
+use_try_shorthand = true
+wrap_comments = true
