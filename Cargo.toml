@@ -7,7 +7,7 @@ description = "Your Personal Creator Assistant"
 documentation = "https://allay-mc.github.io/docs"
 homepage = "https://allay-mc.github.io"
 repository = "https://github.com/allay-mc/allay"
-license = "GNU GPLv3"
+license = "GPL-3.0-only"
 keywords = ["add-on", "assistance", "bedrock", "creator", "minecraft"]
 categories = ["command-line-utilities", "config"]
 
