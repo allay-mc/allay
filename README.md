@@ -59,9 +59,17 @@ cargo binstall allay
 
 ```bash
 # note: This is a bash script
+
+# intialize new project
 mkdir my-project
 cd $_
 allay init
+
+# populate pack(s)
+echo '{"foo": "bar"}' > src/BP/hello.txt
+
+# build pack(s)
+allay build
 ```
 
 
