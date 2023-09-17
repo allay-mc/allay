@@ -81,6 +81,7 @@ documented [here](https://allay-mc.github.io/docs/changelog.html).
 
 ## TODO
 
+- `allay doc` command to open documentation and optional search option
 - tutorial for first time add-on dev and migrating from classic variant
 - remove prev build if it has same version as current one
 - each build should have an ID
