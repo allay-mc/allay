@@ -3,6 +3,7 @@ use clap::{Arg, ArgMatches, Command};
 pub(crate) mod add;
 pub(crate) mod build;
 pub(crate) mod config;
+pub(crate) mod doc;
 pub(crate) mod init;
 pub(crate) mod repair;
 pub(crate) mod uuid;
@@ -30,6 +31,7 @@ pub(crate) fn cmd() -> Command {
             add::cmd(),
             build::cmd(),
             config::cmd(),
+            doc::cmd(),
             init::cmd(),
             repair::cmd(),
             uuid::cmd(),
@@ -56,6 +58,7 @@ pub(crate) fn run(matches: &ArgMatches) {
         Some(("add", m)) => add::run(m),
         Some(("build", m)) => build::run(m),
         Some(("config", m)) => config::run(m),
+        Some(("doc", m)) => doc::run(m),
         Some(("init", m)) => init::run(m),
         Some(("repair", m)) => repair::run(m),
         Some(("uuid", m)) => uuid::run(m),
