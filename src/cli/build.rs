@@ -15,9 +15,14 @@ pub(crate) fn cmd() -> Command {
         )
 }
 
-pub(crate) fn run(matches: &ArgMatches) {
-    let mut env = Environment::new();
-    env.development =
-        !matches.get_one("release").unwrap_or(&false) || env.config.project.development;
-    build(&mut env);
+pub(crate) fn run(matches: &ArgMatches, env: &mut Environment) {
+    if env.config.is_none() {
+        panic!("you are not in an allay project; initialize one with `allay init`");
+    }
+    env.development = Some(
+        !matches.get_one("release").unwrap_or(&false)
+            || env.config.as_ref().unwrap().project.development,
+    );
+    build(env).expect("failed to build project; try executing `allay repair`");
+    log::info!("successfully built project");
 }

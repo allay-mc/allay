@@ -49,31 +49,31 @@ pub(crate) fn languages() -> Vec<&'static str> {
 /// 1. trying to get the translation mapped to `preferred`
 /// 2. trying to get the first translation mapped to `preffered`s language group
 /// 3. trying to get the translation mapped to `primary`
-/// 4. trying to get the fisrt translation mapped to `primary`s language group
+/// 4. trying to get the first translation mapped to `primary`s language group
 /// 5. trying to get the first translation
-/// 6. panicing
+/// 6. fail
 pub(crate) fn best_translation<'a>(
     source: &'a HashMap<String, String>,
     preferred: &str,
     primary: &str,
-) -> &'a String {
+) -> Option<&'a String> {
     if let Some(val) = source.get(preferred) {
-        return val;
+        return Some(val);
     }
     for similar in group_of(preferred) {
         if let Some(val) = source.get(similar) {
-            return val;
+            return Some(val);
         }
     }
     if let Some(val) = source.get(primary) {
-        return val;
+        return Some(val);
     }
     for similar in group_of(primary) {
-        if let Some(val) = source.get(primary) {
-            return val;
+        if let Some(val) = source.get(similar) {
+            return Some(val);
         }
     }
-    source.values().next().expect("no language provided")
+    source.values().next()
 }
 
 /// Converts the Allay localization notation into the Minecraft localization
@@ -97,6 +97,7 @@ pub(crate) fn allay_to_minecraft(language: &str) -> String {
     res
 }
 
+/*
 /// Converts the Minecraft localization notation into the Minecraft localization
 /// notation.
 ///
@@ -117,3 +118,4 @@ pub(crate) fn minecraft_to_allay(language: &str) -> String {
     res.push_str(&country.to_lowercase());
     res
 }
+*/

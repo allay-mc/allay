@@ -1,6 +1,8 @@
 use clap::{Arg, ArgMatches, Command};
 use url::Url;
 
+use crate::environment::Environment;
+
 pub(crate) fn cmd() -> Command {
     Command::new("doc")
         .about("Browse the Allay documentation")
@@ -13,12 +15,12 @@ pub(crate) fn cmd() -> Command {
         )
 }
 
-pub(crate) fn run(matches: &ArgMatches) {
+pub(crate) fn run(matches: &ArgMatches, _env: &mut Environment) {
     let docs_url = "https://allay-mc.github.io/docs/";
     let search: Option<Vec<_>> = matches.get_many::<String>("search").map(|x| x.collect());
     let url = match search {
         Some(query) => {
-            let mut query = query.iter();
+            let query = query.iter();
             let mut s = String::new();
             for word in query {
                 s.push_str(word);

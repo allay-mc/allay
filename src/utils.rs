@@ -1,6 +1,6 @@
-use std::{fs, path::Path};
+pub(crate) use std::path::Path;
 
-pub(crate) use clap::{crate_authors, crate_description, crate_name, crate_version};
+pub(crate) use clap::crate_version;
 
 use crate::paths;
 
@@ -20,24 +20,4 @@ pub(crate) fn version_as_array(version: &str) -> (usize, usize, usize) {
         .map(|x| x.parse().expect("invalid version format"))
         .collect();
     (parts[0], parts[1], parts[2])
-}
-
-/// Returns `true` when the project contains data within the `BP` directory.
-pub(crate) fn has_bp() -> bool {
-    !empty_dir(&paths::src_bp()).unwrap_or(true)
-}
-
-/// Returns `true` when the project contains data within the `RP` directory.
-pub(crate) fn has_rp() -> bool {
-    !empty_dir(&paths::src_rp()).unwrap_or(true)
-}
-
-/// Returns `true` when the project contains data within the `SP` directory.
-pub(crate) fn has_sp() -> bool {
-    !empty_dir(&paths::src_sp()).unwrap_or(true)
-}
-
-/// Returns `true` when the project contains data within the `WT` directory.
-pub(crate) fn has_wt() -> bool {
-    !empty_dir(&paths::src_wt()).unwrap_or(true)
 }

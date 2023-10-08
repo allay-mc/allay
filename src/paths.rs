@@ -1,19 +1,20 @@
 use std::env::current_dir;
 use std::path::PathBuf;
 
-pub(crate) fn root() -> PathBuf {
+pub(crate) fn try_root() -> Option<PathBuf> {
     let mut now = current_dir().expect("cannot get current directory");
     while !now.join("allay.toml").is_file() {
-        now = now
-            .parent()
-            .expect("expected `allay.toml` file in this or any parent directory")
-            .to_path_buf();
+        now = now.parent()?.to_path_buf();
     }
-    now
+    Some(now)
+}
+
+pub(crate) fn root() -> PathBuf {
+    try_root().expect("expected `allay.toml` file in this or any parent directory")
 }
 
 pub(crate) fn internal() -> PathBuf {
-    root().join(".allay")
+    PathBuf::from(".allay")
 }
 
 pub(crate) fn prebuild() -> PathBuf {
@@ -37,7 +38,7 @@ pub(crate) fn prebuild_wt() -> PathBuf {
 }
 
 pub(crate) fn build() -> PathBuf {
-    root().join("build")
+    PathBuf::from("build")
 }
 
 pub(crate) fn build_bp() -> PathBuf {
@@ -61,7 +62,7 @@ pub(crate) fn uuids() -> PathBuf {
 }
 
 pub(crate) fn src() -> PathBuf {
-    root().join("src")
+    PathBuf::from("src")
 }
 
 pub(crate) fn src_bp() -> PathBuf {
@@ -81,13 +82,13 @@ pub(crate) fn src_wt() -> PathBuf {
 }
 
 pub(crate) fn config() -> PathBuf {
-    root().join("allay.toml")
+    PathBuf::from("allay.toml")
 }
 
 pub(crate) fn pack_icon() -> PathBuf {
-    root().join("pack_icon.png")
+    PathBuf::from("icon.png")
 }
 
 pub(crate) fn gitignore() -> PathBuf {
-    root().join(".gitignore")
+    PathBuf::from(".gitignore")
 }

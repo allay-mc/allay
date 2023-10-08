@@ -10,14 +10,17 @@ pub(crate) fn cmd() -> Command {
         .subcommands([refresh::cmd()])
 }
 
-pub(crate) fn run(matches: &ArgMatches) {
+pub(crate) fn run(matches: &ArgMatches, env: &mut Environment) {
     match matches.subcommand() {
         Some(("refresh", m)) => refresh::run(m),
         _ => {
-            let mut uuids = Environment::new().uuids;
+            let uuids = &mut env.uuids;
             // TODO: styled
-            uuids.set_format(*prettytable::format::consts::FORMAT_BOX_CHARS);
-            uuids.print_tty(false).unwrap();
+            uuids
+                .as_mut()
+                .unwrap()
+                .set_format(*prettytable::format::consts::FORMAT_BOX_CHARS);
+            uuids.as_ref().unwrap().print_tty(false).unwrap();
         }
     };
 }

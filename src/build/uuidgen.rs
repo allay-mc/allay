@@ -14,15 +14,58 @@
 use std::fs::File;
 
 use prettytable::{cell, table, Table};
+use uuid::Uuid;
 
-use crate::paths;
+use crate::{addon::AddonType, environment::Environment, paths};
 
-pub(crate) fn read_uuids() -> prettytable::csv::Result<Table> {
-    Table::from_csv_file(paths::uuids())
+pub(crate) fn update_uuids(env: &mut Environment) -> std::io::Result<()> {
+    for pack in AddonType::all() {
+        if pack.exists() {
+            if (match pack {
+                AddonType::BehaviorPack => bp_header,
+                AddonType::ResourcePack => rp_header,
+                AddonType::SkinPack => sp_header,
+                AddonType::WorldTemplate => wt_header,
+            })(&env.uuids.as_ref().unwrap())
+            .is_none()
+            {
+                log::debug!("updating {} header UUID", pack);
+                (match pack {
+                    AddonType::BehaviorPack => update_bp_header,
+                    AddonType::ResourcePack => update_rp_header,
+                    AddonType::SkinPack => update_sp_header,
+                    AddonType::WorldTemplate => update_wt_header,
+                })(&mut env.uuids.as_mut().unwrap(), Uuid::new_v4().to_string());
+            }
+
+            if (match pack {
+                AddonType::BehaviorPack => bp_module,
+                AddonType::ResourcePack => rp_module,
+                AddonType::SkinPack => sp_module,
+                AddonType::WorldTemplate => wt_module,
+            })(&env.uuids.as_ref().unwrap())
+            .is_none()
+            {
+                log::debug!("updating {} module UUID", pack);
+                (match pack {
+                    AddonType::BehaviorPack => update_bp_module,
+                    AddonType::ResourcePack => update_rp_module,
+                    AddonType::SkinPack => update_sp_module,
+                    AddonType::WorldTemplate => update_wt_module,
+                })(&mut env.uuids.as_mut().unwrap(), Uuid::new_v4().to_string());
+            }
+        }
+    }
+
+    save_uuids(&env.uuids.as_ref().unwrap())
+}
+
+pub(crate) fn read_uuids() -> Option<Table> {
+    Table::from_csv_file(paths::try_root()?.join(paths::uuids())).ok()
 }
 
 pub(crate) fn save_uuids(table: &Table) -> std::io::Result<()> {
-    let f = File::create(paths::uuids())?;
+    let f = File::create(paths::root().join(paths::uuids()))?;
     table.to_csv(f).expect("cannot initialize UUID table");
     Ok(())
 }

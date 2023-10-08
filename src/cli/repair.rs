@@ -1,6 +1,6 @@
 use clap::{Arg, ArgMatches, Command};
 
-use crate::health;
+use crate::{environment::Environment, health};
 
 pub(crate) fn cmd() -> Command {
     Command::new("repair")
@@ -8,6 +8,6 @@ pub(crate) fn cmd() -> Command {
         .visible_alias("rep")
 }
 
-pub(crate) fn run(_matches: &ArgMatches) {
+pub(crate) fn run(_matches: &ArgMatches, _env: &mut Environment) {
     health::repair().expect("cannot repair project");
 }

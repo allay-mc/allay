@@ -25,7 +25,7 @@
 
 ## Status
 
-1. [ ] Make it work
+1. [ ] Make it work[^1]
 2. [ ] Make it right
 3. [ ] Make it fast
 
@@ -76,7 +76,7 @@ allay build
 ## Versioning
 
 Allay adheres to [Semantic Versioning](https://semver.org/). The changelog is
-documented [here](https://allay-mc.github.io/docs/changelog.html).
+documented [here](./CHANGELOG.md).
 
 
 ## TODO
@@ -84,14 +84,12 @@ documented [here](https://allay-mc.github.io/docs/changelog.html).
 - tutorial for first time add-on dev and migrating from classic variant
 - remove prev build if it has same version as current one
 - each build should have an ID
-- warn if pack icon / world icon is missing
 - option to insert arbitary data in manifest to support backwards compability
 - make `update` command a feature (enabled by default)?
 - inform (panic) that a `manifest.json` is not necessary
 - `clean` command to clean build & cache, `fullclean` to also reset uuids
 - ensure uuid is not empty when using one
 - `-q, --quiet` option
-- remove DRY code
 - validate config
 - consider https://learn.microsoft.com/en-us/minecraft/creator/documents/basegameversioning#setup
 - create `Environment` in `main.rs` and pass it to cli which passes it to other mods
@@ -101,7 +99,6 @@ documented [here](https://allay-mc.github.io/docs/changelog.html).
 - maybe use enum for language
 - option to save (official (?)) script in `~/.allay/global_scripts/` to save mem (?)
 - support custom language groups
-- improve error messages
 - fully seperate cli and impl
 - implement logging with file and `-v` flag
 - check if all JSON files are valid JSON (with comment) files
@@ -112,4 +109,6 @@ documented [here](https://allay-mc.github.io/docs/changelog.html).
 - rethink panics, expects, etc
 - MSI for Windows
 - script for templating such that something like `include` works
-- script or built.in support for https://learn.microsoft.com/en-us/minecraft/creator/documents/packagingaskinpack#skinsjson
+- script or built-in support for https://learn.microsoft.com/en-us/minecraft/creator/documents/packagingaskinpack#skinsjson
+
+[^1]: *Most* features work.

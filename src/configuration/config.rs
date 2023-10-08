@@ -1,8 +1,11 @@
 use std::collections::HashMap;
+use std::fs;
+use std::str;
 
 use serde::Deserialize;
 
 use super::manifest::{Capabilities, Dependency, ModuleType};
+use crate::paths;
 
 pub(crate) type Language = String;
 pub(crate) type Localized<T> = HashMap<Language, T>;
@@ -50,6 +53,15 @@ pub(crate) struct Config {
 
     #[serde(default)]
     pub build: Build,
+}
+
+impl Config {
+    pub(crate) fn try_parse() -> Option<Self> {
+        toml::from_str(
+            &str::from_utf8(&fs::read(paths::try_root()?.join(paths::config())).ok()?).ok()?,
+        )
+        .ok()?
+    }
 }
 
 #[derive(Debug, Deserialize)]

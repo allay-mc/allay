@@ -1,9 +1,6 @@
-use std::fs::File;
-
 use clap::{Arg, ArgMatches, Command};
 use uuid::Uuid;
 
-use crate::paths;
 use crate::{addon::AddonType, build::uuidgen};
 
 pub(crate) fn cmd() -> Command {

@@ -13,7 +13,24 @@ pub(crate) mod utils;
 
 // TODO: raise on keys not present in `Config`
 
+use environment::Environment;
+// use std::panic;
+
 fn main() {
+    /*
+    panic::set_hook(Box::new(|info| {
+        log::error!(
+            "allay exited unsuccesfully{} - {}",
+            match info.location() {
+                Some(l @ std::panic::Location { .. }) =>
+                    format!(": {}:{}:{}", l.file(), l.line(), l.column()),
+                None => String::from(""),
+            },
+            info.message()
+        );
+    }));
+    */
+    let env = &mut Environment::new();
     let matches = cli::cmd().get_matches();
-    cli::run(&matches);
+    cli::run(&matches, env);
 }

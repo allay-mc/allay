@@ -1,11 +1,11 @@
-use std::fs::File;
 use std::path::PathBuf;
 
 use clap::{Arg, ArgMatches, Command};
 
 use crate::build::uuidgen;
+use crate::environment::Environment;
+use crate::template;
 use crate::utils::empty_dir;
-use crate::{paths, template};
 
 pub(crate) fn cmd() -> Command {
     Command::new("init")
@@ -25,19 +25,19 @@ pub(crate) fn cmd() -> Command {
         )
 }
 
-pub(crate) fn run(matches: &ArgMatches) {
+pub(crate) fn run(matches: &ArgMatches, _env: &mut Environment) {
     let cwd: &PathBuf = &std::env::current_dir()
         .expect("cannot acquire current directory; consider explicitly specifying the path");
     let path: &PathBuf = matches.get_one("path").unwrap_or(cwd);
     let force: &bool = matches.get_one("force").unwrap();
 
     if !path.is_dir() {
-        panic!("{} is not a directory", path.display());
+        panic!("'{}' is not a directory", path.display());
     };
 
     if !force && !empty_dir(path).unwrap() {
         panic!(
-            "{} needs to be empty in order to be initialized as an Allay project",
+            "'{}' needs to be empty in order to be initialized as an Allay project",
             path.display()
         );
     }

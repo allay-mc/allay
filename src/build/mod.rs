@@ -4,67 +4,22 @@ pub(crate) mod uuidgen;
 
 use std::fs;
 
+use anyhow::Context;
 use fs_extra::dir::{copy, CopyOptions};
-use uuid::Uuid;
 
+use crate::addon::AddonType;
+use crate::build::uuidgen::update_uuids;
 use crate::environment::Environment;
 use crate::paths;
 use crate::scripts;
-use crate::utils::{empty_dir, has_bp, has_rp, has_sp, has_wt};
 
-fn update_uuids(env: &mut Environment) -> std::io::Result<()> {
-    if has_bp() {
-        if uuidgen::bp_header(&env.uuids).is_none() {
-            log::debug!("update BP header UUID");
-            uuidgen::update_bp_header(&mut env.uuids, Uuid::new_v4().to_string());
-        }
+/// Text added at the end of the file stem to highlight a development release.
+pub(crate) const DEVELOPMENT_SUFFIX: &'static str = "_dev";
 
-        if uuidgen::bp_module(&env.uuids).is_none() {
-            log::debug!("update BP module UUID");
-            uuidgen::update_bp_module(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-    }
+/// Text added at the end of the file stem to highlight a production release.
+pub(crate) const PRODUCTION_SUFFIX: &'static str = "";
 
-    if has_rp() {
-        if uuidgen::rp_header(&env.uuids).is_none() {
-            log::debug!("update RP header UUID");
-            uuidgen::update_rp_header(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-
-        if uuidgen::rp_module(&env.uuids).is_none() {
-            log::debug!("update RP module UUID");
-            uuidgen::update_rp_module(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-    }
-
-    if has_sp() {
-        if uuidgen::sp_header(&env.uuids).is_none() {
-            log::debug!("update SP header UUID");
-            uuidgen::update_sp_header(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-
-        if uuidgen::sp_module(&env.uuids).is_none() {
-            log::debug!("update SP module UUID");
-            uuidgen::update_sp_module(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-    }
-
-    if has_wt() {
-        if uuidgen::wt_header(&env.uuids).is_none() {
-            log::debug!("update WT header UUID");
-            uuidgen::update_wt_header(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-
-        if uuidgen::wt_module(&env.uuids).is_none() {
-            log::debug!("update WT module UUID");
-            uuidgen::update_wt_module(&mut env.uuids, Uuid::new_v4().to_string());
-        }
-    }
-
-    uuidgen::save_uuids(&env.uuids)
-}
-
-pub(crate) fn build(env: &mut Environment) {
+pub(crate) fn build(env: &mut Environment) -> anyhow::Result<()> {
     let options = CopyOptions {
         overwrite: true,
         skip_exist: false,
@@ -77,195 +32,138 @@ pub(crate) fn build(env: &mut Environment) {
     // TODO: move log messages to the corresponding functions instead of here
     //       in case of `if`s
 
-    update_uuids(env).expect("cannot save UUIDs");
+    update_uuids(env).with_context(|| "cannot save UUIDs")?;
 
-    if has_bp() {
-        log::debug!("copying src/BP to prebuild/BP");
-        let dest = paths::prebuild_bp();
-        copy(paths::src_bp(), dest, &options).expect("cannot copy to prebuild");
+    // copy to prebuild and generate manifest
+    for pack in AddonType::all() {
+        if !pack.exists() {
+            log::info!("skipping {} because it has no content", pack);
+            continue;
+        }
+        log::debug!("copying {} source into prebuild", pack);
+        let dest = paths::root().join(pack.path_prebuild());
+        copy(paths::root().join(pack.path_src()), dest, &options)
+            .with_context(|| "cannot copy to prebuild")?;
+        log::info!("generating manifest for {}", pack);
+        let mf = serde_json::to_string(&match pack {
+            AddonType::BehaviorPack => manifest::behavior_pack(env),
+            AddonType::ResourcePack => manifest::resource_pack(env),
+            AddonType::SkinPack => manifest::skin_pack(env),
+            AddonType::WorldTemplate => manifest::world_template(env),
+        })
+        .with_context(|| "cannot parse manifest")?;
+        let p = paths::root()
+            .join(pack.path_prebuild())
+            .join("manifest.json");
+        fs::write(p, mf).with_context(|| "cannot write manifest")?;
+    }
 
-        log::info!("creating BP manifest");
-        let m =
-            serde_json::to_string(&manifest::behavior_pack(env)).expect("cannot parse manifest");
-        let p = paths::prebuild_bp().join("manifest.json");
-        fs::write(p, m).expect("cannot write manifest");
-    } else {
-        log::debug!("skipping src/BP because it has no content");
-    };
+    // add pack icons
+    let icon = paths::root().join(paths::pack_icon());
+    if icon.exists() {
+        let icon_bp = paths::root()
+            .join(paths::prebuild_bp())
+            .join("pack_icon.png");
+        if icon_bp.exists() {
+            log::info!("Copying project icon into BP");
+            if fs::copy(&icon, icon_bp).is_err() {
+                log::error!("Could not copy project icon to BP")
+            };
+        }
 
-    if has_rp() {
-        log::debug!("copying src/RP to prebuild/RP");
-        let dest = paths::prebuild_rp();
-        copy(paths::src_rp(), dest, &options).expect("copy to prebuild");
+        let icon_rp = paths::root()
+            .join(paths::prebuild_rp())
+            .join("pack_icon.png");
+        if icon_rp.exists() {
+            log::info!("Copying project icon into RP");
+            if fs::copy(&icon, icon_rp).is_err() {
+                log::error!("Could not copy project icon to RP")
+            };
+        }
 
-        log::info!("creating RP manifest");
-        let m =
-            serde_json::to_string(&manifest::resource_pack(env)).expect("cannot parse manifest");
-        let p = paths::prebuild_rp().join("manifest.json");
-        fs::write(p, m).expect("cannot write manifest");
-    } else {
-        log::debug!("skipping copying src/RP because it has no content");
-    };
+        let icon_sp = paths::root()
+            .join(paths::prebuild_sp())
+            .join("pack_icon.png");
+        if icon_sp.exists() {
+            log::info!("Copying project icon into SP");
+            if fs::copy(&icon, icon_sp).is_err() {
+                log::error!("Could not copy project icon to SP")
+            };
+        }
+    }
 
-    if has_sp() {
-        log::debug!("copying src/SP to prebuild/SP");
-        let dest = paths::prebuild_sp();
-        copy(paths::src_sp(), dest, &options).expect("cannot copy to prebuild");
-
-        log::info!("creating SP manifest");
-        let m = serde_json::to_string(&manifest::skin_pack(env)).expect("cannot parse manifest");
-        let p = paths::prebuild_sp().join("manifest.json");
-        fs::write(p, m).expect("cannot write manifest");
-    } else {
-        log::debug!("skipping copying src/SP because it has no content");
-    };
-
-    if has_wt() {
-        log::debug!("copying src/WT to prebuild/WT");
-        let dest = paths::prebuild_wt();
-        copy(paths::src_wt(), dest, &options).expect("cannot copy to prebuild");
-
-        log::info!("creating WT manifest");
-        let m =
-            serde_json::to_string(&manifest::world_template(env)).expect("cannot parse manifest");
-        let p = paths::prebuild_wt().join("manifest.json");
-        fs::write(p, m).expect("cannot write manifest");
-    } else {
-        log::debug!("skipping copying src/WT because it has no content");
-    };
-
-    // append localization
     log::info!("appending language files");
-    localization::append_language_files(env);
+    if let anyhow::Result::Err(e) = localization::append_language_files(env) {
+        log::error!("failed to append language files: {}", e);
+    }
 
     log::info!("running pre scripts");
-    scripts::run_pre_scripts(env).expect("cannot run pre scripts");
+    if let anyhow::Result::Err(e) = scripts::run_pre_scripts(env) {
+        log::error!("failed to run pre scripts: {}", e);
+    }
 
     log::info!("copying into build directory");
-    let source = paths::prebuild();
+    let source = paths::root().join(paths::prebuild());
     if source.is_dir() {
-        fs::remove_dir_all(paths::build_bp()).unwrap_or(());
-        fs::remove_dir_all(paths::build_rp()).unwrap_or(());
-        fs::remove_dir_all(paths::build_sp()).unwrap_or(());
-        fs::remove_dir_all(paths::build_wt()).unwrap_or(());
+        fs::remove_dir_all(paths::root().join(paths::build_bp())).unwrap_or(());
+        fs::remove_dir_all(paths::root().join(paths::build_rp())).unwrap_or(());
+        fs::remove_dir_all(paths::root().join(paths::build_sp())).unwrap_or(());
+        fs::remove_dir_all(paths::root().join(paths::build_wt())).unwrap_or(());
 
-        copy(source, paths::build(), &options).expect("cannot copy to build");
+        copy(source, paths::root().join(paths::build()), &options)
+            .with_context(|| "cannot copy to build")?;
 
-        let dest = paths::build().join(format!(
-            "BP_{}_v{}{}",
-            env.config
-                .project
-                .name
-                .get(&env.config.localization.primary_language)
-                .expect("missing localized string for primary language")
-                .replace(' ', "_"),
-            env.config.project.version,
-            if env.development { "_dev" } else { "" },
-        ));
-        if dest.exists() {
-            log::debug!("removing previous build");
-            fs::remove_dir_all(dest.clone()).expect("cannot remove previous build");
-        };
-        if has_bp() {
-            log::debug!("copying bp build");
-            fs::rename(paths::build_bp(), dest.clone()).expect("cannot rename");
+        for pack in AddonType::all() {
+            let dest = paths::root().join(paths::build()).join(format!(
+                "{}_{}_v{}{}",
+                pack.short_name(),
+                env.config
+                    .as_ref()
+                    .unwrap()
+                    .project
+                    .name
+                    .get(&env.config.as_ref().unwrap().localization.primary_language)
+                    .with_context(|| "missing localized string for primary language")?
+                    .replace(' ', "_"),
+                env.config.as_ref().unwrap().project.version,
+                match env.development {
+                    Some(true) => DEVELOPMENT_SUFFIX,
+                    Some(false) => PRODUCTION_SUFFIX,
+                    None => unreachable!(),
+                }
+            ));
+            if dest.exists() {
+                log::debug!("removing previous build");
+                fs::remove_dir_all(dest.clone())
+                    .with_context(|| "failed to remove previous build")?;
+            }
+            if pack.exists() {
+                log::debug!("copying {} build", pack);
+                fs::rename(paths::root().join(pack.path_build()), dest.clone())
+                    .with_context(|| "cannot rename")?;
 
-            #[cfg(target_family = "unix")]
-            std::os::unix::fs::symlink(dest.clone(), paths::build_bp())
-                .expect("cannot symlink bp build");
-            #[cfg(target_family = "windows")]
-            std::os::windows::fs::symlink_dir(dest.clone(), paths::build_bp())
-                .expect("cannot symlink bp build");
-        };
+                #[cfg(target_family = "unix")]
+                let res = std::os::unix::fs::symlink(dest.clone(), pack.path_build());
+                #[cfg(target_family = "windows")]
+                let res = std::os::windows::fs::symlink_dir(dest.clone(), pack.path_build());
 
-        let dest = paths::build().join(format!(
-            "RP_{}_v{}{}",
-            env.config
-                .project
-                .name
-                .get(&env.config.localization.primary_language)
-                .expect("missing localized string for primary language")
-                .replace(' ', "_"),
-            env.config.project.version,
-            if env.development { "_dev" } else { "" },
-        ));
-        if dest.exists() {
-            log::debug!("removing previous build");
-            fs::remove_dir_all(dest.clone()).expect("cannot remove previous build");
-        };
-        if has_rp() {
-            log::debug!("copying rp build");
-            fs::rename(paths::build_rp(), dest.clone()).expect("cannot rename");
-
-            #[cfg(target_family = "unix")]
-            std::os::unix::fs::symlink(dest.clone(), paths::build_rp())
-                .expect("cannot symlink bp build");
-            #[cfg(target_family = "windows")]
-            std::os::windows::fs::symlink_dir(dest.clone(), paths::build_rp())
-                .expect("cannot symlink bp build");
-        };
-
-        let dest = paths::build().join(format!(
-            "SP_{}_v{}{}",
-            env.config
-                .project
-                .name
-                .get(&env.config.localization.primary_language)
-                .expect("missing localized string for primary language")
-                .replace(' ', "_"),
-            env.config.project.version,
-            if env.development { "_dev" } else { "" },
-        ));
-        if dest.exists() {
-            log::debug!("removing previous build");
-            fs::remove_dir_all(dest.clone()).expect("cannot remove previous build");
-        };
-        if has_sp() {
-            log::debug!("copying sp build");
-            fs::rename(paths::build_sp(), dest.clone()).expect("cannot rename");
-
-            #[cfg(target_family = "unix")]
-            std::os::unix::fs::symlink(dest.clone(), paths::build_sp())
-                .expect("cannot symlink bp build");
-            #[cfg(target_family = "windows")]
-            std::os::windows::fs::symlink_dir(dest.clone(), paths::build_sp())
-                .expect("cannot symlink bp build");
-        };
-
-        let dest = paths::build().join(format!(
-            "WT_{}_v{}{}",
-            env.config
-                .project
-                .name
-                .get(&env.config.localization.primary_language)
-                .expect("missing localized string for primary language")
-                .replace(' ', "_"),
-            env.config.project.version,
-            if env.development { "_dev" } else { "" },
-        ));
-        if dest.exists() {
-            log::debug!("removing previous build");
-            fs::remove_dir_all(dest.clone()).expect("cannot remove previous build");
-        };
-        if has_wt() {
-            log::debug!("copying wt build");
-            fs::rename(paths::build_wt(), dest.clone()).expect("cannot rename");
-
-            #[cfg(target_family = "unix")]
-            std::os::unix::fs::symlink(dest.clone(), paths::build_wt())
-                .expect("cannot symlink bp build");
-            #[cfg(target_family = "windows")]
-            std::os::windows::fs::symlink_dir(dest.clone(), paths::build_wt())
-                .expect("cannot symlink bp build");
-        };
+                if let std::io::Result::Err(e) = res {
+                    log::error!("failed to symlink {}: {}", pack, e);
+                }
+            }
+        }
     }
 
     // TODO: if running in release mode, zip the build into mcpack depending on config
 
     log::info!("running post scripts");
-    scripts::run_post_scripts(env).expect("cannot run post scripts");
+    if let anyhow::Result::Err(e) = scripts::run_post_scripts(env) {
+        log::error!("failed to run post scripts: {}", e);
+    };
 
     log::debug!("clear prebuild");
-    fs::remove_dir_all(paths::prebuild()).expect("cannot remove prebuild directory");
-    fs::create_dir(paths::prebuild()).expect("cannot create prebuild");
+    fs::remove_dir_all(paths::prebuild()).with_context(|| "failed to remove prebuild directory")?;
+    fs::create_dir(paths::prebuild()).with_context(|| "failed to create prebuild")?;
+
+    Ok(())
 }
