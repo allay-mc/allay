@@ -79,36 +79,4 @@ Allay adheres to [Semantic Versioning](https://semver.org/). The changelog is
 documented [here](./CHANGELOG.md).
 
 
-## TODO
-
-- tutorial for first time add-on dev and migrating from classic variant
-- remove prev build if it has same version as current one
-- each build should have an ID
-- option to insert arbitary data in manifest to support backwards compability
-- make `update` command a feature (enabled by default)?
-- inform (panic) that a `manifest.json` is not necessary
-- `clean` command to clean build & cache, `fullclean` to also reset uuids
-- ensure uuid is not empty when using one
-- `-q, --quiet` option
-- validate config
-- consider https://learn.microsoft.com/en-us/minecraft/creator/documents/basegameversioning#setup
-- create `Environment` in `main.rs` and pass it to cli which passes it to other mods
-- consider https://learn.microsoft.com/en-us/minecraft/creator/documents/packagingaworldtemplate#template-world_behaviorresource_packsjson
-- add CONTRIBUTING.md
-- assert language syntax in config
-- maybe use enum for language
-- option to save (official (?)) script in `~/.allay/global_scripts/` to save mem (?)
-- support custom language groups
-- fully seperate cli and impl
-- implement logging with file and `-v` flag
-- check if all JSON files are valid JSON (with comment) files
-- update command
-- `watch` command
-- wt should automatically contain bp and rp
-- script that support markup such as `<red>foo</red>` and support custom tags
-- rethink panics, expects, etc
-- MSI for Windows
-- script for templating such that something like `include` works
-- script or built-in support for https://learn.microsoft.com/en-us/minecraft/creator/documents/packagingaskinpack#skinsjson
-
 [^1]: *Most* features work.
