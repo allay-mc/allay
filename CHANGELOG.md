@@ -34,5 +34,5 @@ _🍰 Initial release_
 
 
 [unreleased]: https://github.com/allay-mc/allay/compare/v0.1.0-beta.1...HEAD
-[0.1.0-beta.1]: https://github.com/allay-mc/allay/compare/v0.1.0-alpha.2...v0.1.0-beta.1
+[0.1.0-beta.1]: https://github.com/allay-mc/allay/compare/v0.1.0-alpha.1...v0.1.0-beta.1
 [0.1.0-alpha.1]: https://github.com/allay-mc/allay/releases/v0.1.0-alpha.1
