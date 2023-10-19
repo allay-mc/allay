@@ -2,12 +2,16 @@ use clap::{Arg, ArgMatches, Command};
 
 use crate::environment::Environment;
 
+#[cfg(feature = "command-add")]
 pub(crate) mod add;
 pub(crate) mod build;
 pub(crate) mod config;
+#[cfg(feature = "command-doc")]
 pub(crate) mod doc;
 pub(crate) mod init;
 pub(crate) mod repair;
+#[cfg(feature = "config-schema")]
+pub(crate) mod schema;
 pub(crate) mod uuid;
 
 pub(crate) fn cmd() -> Command {
@@ -32,13 +36,17 @@ pub(crate) fn cmd() -> Command {
                 .default_value("3"),
         )
         .subcommands([
+            #[cfg(feature = "command-add")]
             add::cmd(),
             build::cmd(),
             config::cmd(),
+            #[cfg(feature = "command-doc")]
             doc::cmd(),
             init::cmd(),
             repair::cmd(),
             uuid::cmd(),
+            #[cfg(feature = "config-schema")]
+            schema::cmd(),
         ])
 }
 
@@ -59,13 +67,17 @@ pub(crate) fn run(matches: &ArgMatches, env: &mut Environment) {
         .init();
 
     match matches.subcommand() {
+        #[cfg(feature = "command-add")]
         Some(("add", m)) => add::run(m, env),
         Some(("build", m)) => build::run(m, env),
         Some(("config", m)) => config::run(m, env),
+        #[cfg(feature = "command-doc")]
         Some(("doc", m)) => doc::run(m, env),
         Some(("init", m)) => init::run(m, env),
         Some(("repair", m)) => repair::run(m, env),
         Some(("uuid", m)) => uuid::run(m, env),
+        #[cfg(feature = "config-schema")]
+        Some(("schema", m)) => schema::run(m, env),
         _ => unreachable!(),
     }
 }

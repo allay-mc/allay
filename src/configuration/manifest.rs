@@ -112,6 +112,11 @@ pub(crate) struct Module {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(
+    feature = "config-schema",
+    derive(schemars::JsonSchema),
+    schemars(deny_unknown_fields)
+)]
 pub(crate) struct Dependency {
     /// This is the unique identifier of the pack that this pack depends on.
     /// It needs to be the exact same UUID that the pack has defined in the
@@ -128,6 +133,11 @@ pub(crate) struct Dependency {
 /// > The type of the keys are nowhere documented. I'm assuming these are
 /// > boolean values.
 #[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
+#[cfg_attr(
+    feature = "config-schema",
+    derive(schemars::JsonSchema),
+    schemars(deny_unknown_fields)
+)]
 pub(crate) struct Capabilities {
     /// The pack can add, remove, or modify chemistry behavior.
     pub chemistry: bool,
@@ -167,6 +177,11 @@ pub(crate) struct Metadata {
 }
 
 #[non_exhaustive]
+#[cfg_attr(
+    feature = "config-schema",
+    derive(schemars::JsonSchema),
+    schemars(deny_unknown_fields)
+)]
 #[derive(Copy, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all(serialize = "snake_case"))]
 pub(crate) enum ModuleType {

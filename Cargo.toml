@@ -17,15 +17,28 @@ clap = { version = "4.3.16", features = ["cargo"] }
 env_logger = "0.10.0"
 fs_extra = "1.3.0"
 log = "0.4.19"
-minreq = { version = "2.8.1", features = ["https-rustls"] }
+minreq = { version = "2.8.1", features = ["https-rustls"], optional = true }
 open = "5.0.0"
 prettytable = "0.10.0"
 schemars = { version = "0.8.12", optional = true }
 serde = { version = "1.0.171", features = ["derive"] }
 serde_json = "1.0.103"
 toml = "0.7.6"
-url = "2.4.1"
+url = { version = "2.4.1", optional = true }
 uuid = { version = "1.4.1", features = ["v4"] }
 
 [features]
+default = ["command-add", "command-doc"]
+
+# Enables `schema` command which prints the JSON schema for the configuration file.
+# This is mainly used internally to generate a schema file which can be downloaded.
 config-schema = ["schemars"]
+
+# Enables `add` command which allows quickly downloading official scripts from the
+# `allay-mc/scripts` repository.
+command-add = ["minreq"]
+
+# Enables `doc` command which allows quickly accessing the documentation from the
+# terminal.
+command-doc = ["url"]
+

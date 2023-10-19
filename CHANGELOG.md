@@ -5,6 +5,16 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ## [unreleased]
 
+### Added
+
+- Add `schema` command (only available with `config-schema` feature).
+
+### Changed
+
+- `add` is now an optional feature and can be disabled.
+- `doc` is now an optional feature and can be disabled.
+
+
 ## [0.1.0-beta.1] - 2023-10-08
 
 ### Added
@@ -18,7 +28,6 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
   group instead of the primary language.
 - `add` command now uses `master` branch instead of `main` which does not exist.
 - `add` command now adds `rb` file extension to added files.
-
 
 ### Changed
 

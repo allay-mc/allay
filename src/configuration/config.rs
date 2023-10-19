@@ -29,7 +29,7 @@ pub(crate) mod defaults {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct Config {
     /// Optional reference to schema.
@@ -68,7 +68,7 @@ impl Config {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Project {
@@ -104,7 +104,7 @@ pub(crate) struct Project {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Localization {
@@ -119,7 +119,7 @@ pub(crate) struct Localization {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Build {
@@ -132,7 +132,7 @@ pub(crate) struct Build {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) enum BuildType {
@@ -144,7 +144,7 @@ pub(crate) enum BuildType {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Scripts {
@@ -165,7 +165,7 @@ pub(crate) struct Scripts {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct Script {
     /// The path to the script.
@@ -183,7 +183,7 @@ pub(crate) struct Script {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct Pack {
     #[serde(default)]
@@ -206,7 +206,7 @@ pub(crate) struct Pack {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct PackBP {
     /// The name of the behavior pack.
@@ -230,7 +230,7 @@ pub(crate) struct PackBP {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct PackRP {
     /// The name of the behavior pack.
@@ -251,7 +251,7 @@ pub(crate) struct PackRP {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 pub(crate) struct PackSP {
     /// The name of the behavior pack.
@@ -272,7 +272,7 @@ pub(crate) struct PackSP {
 #[cfg_attr(
     feature = "config-schema",
     derive(schemars::JsonSchema),
-    schemars(deny_unknown_field)
+    schemars(deny_unknown_fields)
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct PackWT {
