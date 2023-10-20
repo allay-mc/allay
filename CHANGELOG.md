@@ -7,9 +7,10 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Add `use-custom-manifest` field (#5)
+- Add `use-custom-manifest` field (#5).
+- Add `build` directory to gitignore.
 - Executables can now be used as an alternative to scripts (as described
-  [here](https://allay-mc.github.io/docs/scripts/executables.html)) (#15)
+  [here](https://allay-mc.github.io/docs/scripts/executables.html)) (#15).
 - Add `schema` command (only available with `config-schema` feature).
 - Add `--bundle`, `--dir` and `--individual` flags for `build` command.
 - `--release` can now be invoked with `-r` as well.
