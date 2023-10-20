@@ -168,11 +168,12 @@ pub(crate) struct Scripts {
     schemars(deny_unknown_fields)
 )]
 pub(crate) struct Script {
-    /// The path to the script.
+    /// The path to the script or the name of the executable.
     pub run: String,
 
     /// The program to run the script with.
-    pub with: String,
+    #[serde(default)]
+    pub with: Option<String>,
 
     /// Additional arguments supplied to the script.
     #[serde(default)]

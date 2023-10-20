@@ -60,20 +60,32 @@ fn run_scripts(env: &Environment, scripts: &Vec<Script>) -> anyhow::Result<()> {
     let base_path = fs::canonicalize(env.config.as_ref().unwrap().scripts.base_path.clone())
         .with_context(|| "cannot make base path absolute maybe because the path does not exist")?;
     for script in scripts {
-        let path = script.run.clone();
-        log::info!("running script {}", path);
-        let output = Command::new(script.with.clone())
-            .arg(&path) // TODO: ensure valid path
-            .args(script.args.clone())
+        let mut args = script.args.clone();
+        let prog = script.with.as_ref().unwrap_or(&script.run);
+        let kind: &str;
+        let name: &str;
+        if script.with.is_none() {
+            kind = "script";
+            name = &script.run;
+            args.insert(0, script.run.clone());
+        } else {
+            kind = "executable";
+            name = prog.as_str();
+        }
+
+        log::info!("running {} {}", kind, name);
+        let output = Command::new(prog)
+            .args(args)
             .current_dir(&std::path::Path::new(&base_path))
             .envs(envs(env))
             .output()
-            .with_context(|| format!("failed to run script {}", path))?;
+            .with_context(|| format!("failed to run {} {}", kind, name))?;
         if output.status.success() {
             successful_runs += 1;
         } else {
             log::error!(
-                "script exited unsuccessfully{}",
+                "{} exited unsuccessfully{}",
+                kind,
                 match output.status.code() {
                     Some(code) => format!(" (code: {})", code),
                     None => String::from(""),
@@ -81,7 +93,7 @@ fn run_scripts(env: &Environment, scripts: &Vec<Script>) -> anyhow::Result<()> {
             )
         }
         if !output.stdout.is_empty() {
-            println!("=== Captured stdout of {}", path);
+            println!("=== Captured stdout of {}", name);
             print!(
                 "{}",
                 str::from_utf8(&output.stdout).with_context(|| "invalid stdout output")?
@@ -89,7 +101,7 @@ fn run_scripts(env: &Environment, scripts: &Vec<Script>) -> anyhow::Result<()> {
             println!("=== End");
         }
         if !output.stderr.is_empty() {
-            println!("=== Captured stderr of {}", path);
+            println!("=== Captured stderr of {}", name);
             print!(
                 "{}",
                 str::from_utf8(&output.stderr).with_context(|| "invalid stderr output")?
