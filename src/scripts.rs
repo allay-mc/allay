@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 use std::ffi::OsString;
+use std::fs;
 use std::process::Command;
-use std::{fs, str};
+use std::str;
 
 use anyhow::Context;
 
