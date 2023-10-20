@@ -8,11 +8,14 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Add `schema` command (only available with `config-schema` feature).
+- Add `--bundle`, `--dir` and `--individual` flags for `build` command.
+- `--release` can now be invoked with `-r` as well.
 
 ### Changed
 
 - `add` is now an optional feature and can be disabled.
 - `doc` is now an optional feature and can be disabled.
+- `--release` option for `build` now only depends on presence instead of a value.
 
 
 ## [0.1.0-beta.1] - 2023-10-08
