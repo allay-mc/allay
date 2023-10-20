@@ -13,6 +13,7 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- `base_game_version` can now be `"*"` (#9).
 - `add` is now an optional feature and can be disabled.
 - `doc` is now an optional feature and can be disabled.
 - `--release` option for `build` now only depends on presence instead of a value.

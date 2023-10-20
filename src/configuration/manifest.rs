@@ -48,7 +48,7 @@ pub(crate) struct Header {
     ///
     /// [None] if not a world pack.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub base_game_version: Option<(usize, usize, usize)>,
+    pub base_game_version: Option<BaseGameVersion>,
 
     /// This is a short description of the pack. It will appear in the game
     /// below the name of the pack. We recommend keeping it to 1-2 lines.
@@ -193,4 +193,14 @@ pub(crate) enum ModuleType {
     WorldTemplate,
     JavaScript,
     SkinPack,
+}
+
+#[derive(Debug, Serialize)]
+pub(crate) enum BaseGameVersion {
+    /// If your content is version agnostic (such as a simple survival spawn which
+    /// is unlikely to break from future updates), you can forgo locking your
+    /// content to a specific version by using a "wildcard": "base_game_version": "*".
+    Wild,
+
+    Version(usize, usize, usize),
 }

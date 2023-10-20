@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::addon::AddonType;
 use crate::configuration::manifest::{Dependency, Header, Manifest, Metadata, Module, ModuleType};
 use crate::environment::Environment;
-use crate::utils::{crate_version, version_as_array};
+use crate::utils::{crate_version, version_as_array, version_as_array_or_wild};
 
 use super::uuidgen;
 
@@ -28,20 +28,22 @@ pub(crate) fn behavior_pack(env: &Environment) -> Manifest {
                 .clone(),
             name: String::from("pack.name"),
             uuid: uuidgen::bp_header(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         },
         modules: Some(vec![Module {
             description: String::from("pack.description"),
             kind: env.config.as_ref().unwrap().pack.bp.kind,
             uuid: uuidgen::bp_module(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         }]),
         dependencies: Some(if AddonType::BehaviorPack.exists() {
             let mut deps = env.config.as_ref().unwrap().pack.bp.dependencies.clone();
             deps.push(Dependency {
                 uuid: uuidgen::rp_header(&env.uuids.as_ref().unwrap())
                     .expect("RP header UUID not present"),
-                version: version_as_array(&env.config.as_ref().unwrap().project.version),
+                version: version_as_array(&env.config.as_ref().unwrap().project.version).unwrap(),
             });
             deps
         } else {
@@ -78,20 +80,22 @@ pub(crate) fn resource_pack(env: &Environment) -> Manifest {
                 .clone(),
             name: String::from("pack.name"),
             uuid: uuidgen::rp_header(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         },
         modules: Some(vec![Module {
             description: String::from("pack.description"),
             kind: ModuleType::Resources,
             uuid: uuidgen::rp_module(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         }]),
         dependencies: Some(if AddonType::ResourcePack.exists() {
             let mut deps = env.config.as_ref().unwrap().pack.bp.dependencies.clone();
             deps.push(Dependency {
                 uuid: uuidgen::bp_header(&env.uuids.as_ref().unwrap())
                     .expect("BP header UUID not present"),
-                version: version_as_array(&env.config.as_ref().unwrap().project.version),
+                version: version_as_array(&env.config.as_ref().unwrap().project.version).unwrap(),
             });
             deps
         } else {
@@ -128,13 +132,15 @@ pub(crate) fn skin_pack(env: &Environment) -> Manifest {
                 .clone(),
             name: String::from("pack.name"),
             uuid: uuidgen::sp_header(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         },
         modules: Some(vec![Module {
             description: String::from("pack.description"),
             kind: ModuleType::SkinPack,
             uuid: uuidgen::sp_module(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         }]),
         dependencies: None,
         capabilities: None,
@@ -156,17 +162,20 @@ pub(crate) fn world_template(env: &Environment) -> Manifest {
         format_version: 2,
         header: Header {
             allow_random_seed: env.config.as_ref().unwrap().pack.wt.allow_random_seed,
-            base_game_version: Some(version_as_array(
-                &env.config
-                    .as_ref()
-                    .unwrap()
-                    .pack
-                    .wt
-                    .base_game_version
-                    .clone()
-                    .expect("missing base game version for world template")
-                    .as_str(),
-            )),
+            base_game_version: Some(
+                version_as_array_or_wild(
+                    &env.config
+                        .as_ref()
+                        .unwrap()
+                        .pack
+                        .wt
+                        .base_game_version
+                        .clone()
+                        .expect("missing base game version for world template")
+                        .as_str(),
+                )
+                .unwrap(),
+            ),
             description: String::from("pack.description"),
             lock_template_options: env.config.as_ref().unwrap().pack.wt.lock_template_options,
             min_engine_version: env
@@ -178,13 +187,15 @@ pub(crate) fn world_template(env: &Environment) -> Manifest {
                 .clone(),
             name: String::from("pack.name"),
             uuid: uuidgen::wt_header(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         },
         modules: Some(vec![Module {
             description: String::from("pack.description"),
             kind: ModuleType::WorldTemplate,
             uuid: uuidgen::wt_module(&env.uuids.as_ref().unwrap()).unwrap(),
-            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str()),
+            version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
+                .unwrap(),
         }]),
         dependencies: None,
         capabilities: None,
