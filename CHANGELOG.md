@@ -7,6 +7,7 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add `use-custom-manifest` field (#5)
 - Executables can now be used as an alternative to scripts (as described
   [here](https://allay-mc.github.io/docs/scripts/executables.html)) (#15)
 - Add `schema` command (only available with `config-schema` feature).
@@ -19,6 +20,10 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 - `add` is now an optional feature and can be disabled.
 - `doc` is now an optional feature and can be disabled.
 - `--release` option for `build` now only depends on presence instead of a value.
+
+### Removed
+
+- Remove `build_type` field of `[build]` section
 
 
 ## [0.1.0-beta.1] - 2023-10-08

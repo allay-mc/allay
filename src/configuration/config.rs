@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::fs;
+use std::path::PathBuf;
 use std::str;
 
 use serde::Deserialize;
@@ -123,21 +124,18 @@ pub(crate) struct Localization {
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Build {
-    /// Always uses this type of build.
+    /// Excludes all files unless those specified here.
     #[serde(default)]
-    pub build_type: Option<BuildType>,
-}
+    pub include: Vec<PathBuf>,
 
-#[derive(Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
-#[serde(rename_all = "kebab-case")]
-pub(crate) enum BuildType {
-    Mcpack,
-    Directory,
+    /// Includes all files unless those specified here.
+    #[serde(default)]
+    pub exclude: Vec<PathBuf>,
+
+    /// Uses the custom manifest file instead of generating one from the
+    /// configuration file.
+    #[serde(default)]
+    pub use_custom_manifest: bool,
 }
 
 #[derive(Debug, Default, Deserialize)]

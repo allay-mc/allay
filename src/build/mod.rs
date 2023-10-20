@@ -44,14 +44,27 @@ pub(crate) fn build(env: &mut Environment) -> anyhow::Result<()> {
         let dest = paths::root().join(pack.path_prebuild());
         copy(paths::root().join(pack.path_src()), dest, &options)
             .with_context(|| "cannot copy to prebuild")?;
-        log::info!("generating manifest for {}", pack);
-        let mf = serde_json::to_string(&match pack {
-            AddonType::BehaviorPack => manifest::behavior_pack(env),
-            AddonType::ResourcePack => manifest::resource_pack(env),
-            AddonType::SkinPack => manifest::skin_pack(env),
-            AddonType::WorldTemplate => manifest::world_template(env),
-        })
-        .with_context(|| "cannot parse manifest")?;
+
+        let custom_manifest_path = pack.path_src().join("manifest.json");
+        let has_manifest = custom_manifest_path.exists();
+        let mf: String;
+        if env.config.as_ref().unwrap().build.use_custom_manifest && has_manifest {
+            log::info!("using custom manifest for {}", pack);
+            mf = fs::read_to_string(custom_manifest_path)
+                .with_context(|| "cannot read custom manifest")?;
+        } else {
+            if has_manifest {
+                log::warn!("found manifest.json in {} which will not be used", pack);
+            }
+            log::info!("generating manifest for {}", pack);
+            mf = serde_json::to_string(&match pack {
+                AddonType::BehaviorPack => manifest::behavior_pack(env),
+                AddonType::ResourcePack => manifest::resource_pack(env),
+                AddonType::SkinPack => manifest::skin_pack(env),
+                AddonType::WorldTemplate => manifest::world_template(env),
+            })
+            .with_context(|| "cannot parse manifest")?;
+        }
         let p = paths::root()
             .join(pack.path_prebuild())
             .join("manifest.json");
