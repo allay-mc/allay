@@ -20,10 +20,6 @@ pub(crate) mod defaults {
             .map(|v| v.iter().map(|&s| s.into()).collect())
             .collect()
     }
-
-    pub(crate) fn ret_true() -> bool {
-        true
-    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -91,11 +87,6 @@ pub(crate) struct Project {
 
     /// URL to the homepage of your project.
     pub url: Option<String>,
-
-    /// Whether this project is still in development. This influences the build
-    /// process and can be overridden with the `--release` flag.
-    #[serde(default = "defaults::ret_true")] // https://github.com/serde-rs/serde/issues/368 :/
-    pub development: bool,
 
     /// Minimum version of the game the pack is written for.
     pub min_engine_version: Version,

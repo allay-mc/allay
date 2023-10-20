@@ -23,7 +23,8 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
-- Remove `build_type` field of `[build]` section
+- Remove `development` field of `[project]` section.
+- Remove `build_type` field of `[build]` section.
 
 
 ## [0.1.0-beta.1] - 2023-10-08

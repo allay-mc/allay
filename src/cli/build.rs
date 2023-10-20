@@ -41,8 +41,7 @@ pub(crate) fn run(matches: &ArgMatches, env: &mut Environment) {
     if env.config.is_none() {
         panic!("you are not in an allay project; initialize one with `allay init`");
     }
-    env.development =
-        Some(!matches.get_flag("release") || env.config.as_ref().unwrap().project.development);
+    env.development = Some(!matches.get_flag("release"));
 
     // TODO: infer file type, use --bundle, --dir or --individual or bundle if release mode,
     //       otherwise dir
