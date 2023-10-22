@@ -25,6 +25,7 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
+- Remove unimplemented command `config`.
 - Remove `development` field of `[project]` section (#21).
 - Remove `build_type` field of `[build]` section.
 

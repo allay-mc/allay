@@ -5,7 +5,6 @@ use crate::environment::Environment;
 #[cfg(feature = "command-add")]
 pub(crate) mod add;
 pub(crate) mod build;
-pub(crate) mod config;
 #[cfg(feature = "command-doc")]
 pub(crate) mod doc;
 pub(crate) mod init;
@@ -39,7 +38,6 @@ pub(crate) fn cmd() -> Command {
             #[cfg(feature = "command-add")]
             add::cmd(),
             build::cmd(),
-            config::cmd(),
             #[cfg(feature = "command-doc")]
             doc::cmd(),
             init::cmd(),
@@ -70,7 +68,6 @@ pub(crate) fn run(matches: &ArgMatches, env: &mut Environment) {
         #[cfg(feature = "command-add")]
         Some(("add", m)) => add::run(m, env),
         Some(("build", m)) => build::run(m, env),
-        Some(("config", m)) => config::run(m, env),
         #[cfg(feature = "command-doc")]
         Some(("doc", m)) => doc::run(m, env),
         Some(("init", m)) => init::run(m, env),
