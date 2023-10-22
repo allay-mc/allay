@@ -7,6 +7,7 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add support for `exclude` field in the `[build]` section (#14).
 - Add `use-custom-manifest` field (#5).
 - Add `build` directory to gitignore.
 - Executables can now be used as an alternative to scripts (as described

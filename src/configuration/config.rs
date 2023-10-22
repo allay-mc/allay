@@ -115,13 +115,15 @@ pub(crate) struct Localization {
 )]
 #[serde(rename_all = "kebab-case")]
 pub(crate) struct Build {
-    /// Excludes all files unless those specified here.
-    #[serde(default)]
-    pub include: Vec<PathBuf>,
+    // /// Excludes all files unless those specified here.
+    // #[serde(default)]
+    // pub include: Vec<PathBuf>,
 
-    /// Includes all files unless those specified here.
-    #[serde(default)]
-    pub exclude: Vec<PathBuf>,
+    // /// Includes all files unless those specified here.
+    // #[serde(default)]
+    // pub exclude: Vec<PathBuf>,
+    #[serde(default, flatten)]
+    pub filter: Option<Filter>,
 
     /// Uses the custom manifest file instead of generating one from the
     /// configuration file.
@@ -294,4 +296,16 @@ pub(crate) struct PackWT {
     /// pack definined in the same project will depend on each other by default.
     #[serde(default)]
     pub dependencies: Vec<Dependency>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[cfg_attr(
+    feature = "config-schema",
+    derive(schemars::JsonSchema),
+    schemars(deny_unknown_fields)
+)]
+#[serde(rename_all = "kebab-case")]
+pub(crate) enum Filter {
+    // an `include` field is considered unecessary
+    Exclude(Vec<String>),
 }

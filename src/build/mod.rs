@@ -6,9 +6,11 @@ use std::fs;
 
 use anyhow::Context;
 use fs_extra::dir::{copy, CopyOptions};
+use glob::glob;
 
 use crate::addon::AddonType;
 use crate::build::uuidgen::update_uuids;
+use crate::configuration::config::Filter;
 use crate::environment::Environment;
 use crate::paths;
 use crate::scripts;
@@ -115,6 +117,40 @@ pub(crate) fn build(env: &mut Environment) -> anyhow::Result<()> {
         log::error!("failed to run pre scripts: {}", e);
     }
 
+    log::info!("filtering files");
+    for pack in AddonType::all() {
+        if !pack.exists() {
+            continue;
+        }
+        let path = pack.path_prebuild();
+        let path = path.as_path();
+        match &env.config.as_ref().unwrap().build.filter {
+            Some(Filter::Exclude(patterns)) => {
+                for pattern in patterns {
+                    for file in glob(
+                        path.join(&pattern)
+                            .to_str()
+                            .with_context(|| "path contains non-UTF8")?,
+                    )
+                    .with_context(|| "invalid glob pattern")?
+                    {
+                        match file {
+                            Ok(f) => {
+                                // TODO: do not remove manifest.json
+                                log::debug!("removing {}", f.display());
+                                if let Err(e) = fs::remove_file(&f) {
+                                    log::error!("failed to remove file {}: {}", f.display(), e);
+                                };
+                            }
+                            Err(e) => log::error!("failed to remove file: {}", e),
+                        };
+                    }
+                }
+            }
+            None => {}
+        };
+    }
+
     log::info!("copying into build directory");
     let source = paths::root().join(paths::prebuild());
     if source.is_dir() {
@@ -127,6 +163,7 @@ pub(crate) fn build(env: &mut Environment) -> anyhow::Result<()> {
             .with_context(|| "cannot copy to build")?;
 
         for pack in AddonType::all() {
+            log::debug!("naming the pack");
             let dest = paths::root().join(paths::build()).join(format!(
                 "{}_{}_v{}{}",
                 pack.short_name(),
@@ -145,11 +182,13 @@ pub(crate) fn build(env: &mut Environment) -> anyhow::Result<()> {
                     None => unreachable!(),
                 }
             ));
+
             if dest.exists() {
                 log::debug!("removing previous build");
                 fs::remove_dir_all(dest.clone())
                     .with_context(|| "failed to remove previous build")?;
             }
+
             if pack.exists() {
                 log::debug!("copying {} build", pack);
                 fs::rename(paths::root().join(pack.path_build()), dest.clone())
