@@ -91,7 +91,7 @@ pub(crate) fn resource_pack(env: &Environment) -> Manifest {
                 .unwrap(),
         }]),
         dependencies: Some(if AddonType::ResourcePack.exists() {
-            let mut deps = env.config.as_ref().unwrap().pack.bp.dependencies.clone();
+            let mut deps = env.config.as_ref().unwrap().pack.rp.dependencies.clone();
             deps.push(Dependency {
                 uuid: uuidgen::bp_header(&env.uuids.as_ref().unwrap())
                     .expect("BP header UUID not present"),
@@ -142,7 +142,14 @@ pub(crate) fn skin_pack(env: &Environment) -> Manifest {
             version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
                 .unwrap(),
         }]),
-        dependencies: None,
+        dependencies: {
+            let deps = &env.config.as_ref().unwrap().pack.sp.dependencies;
+            if deps.is_empty() {
+                None
+            } else {
+                Some(deps.clone())
+            }
+        },
         capabilities: None,
         metadata: Some(Metadata {
             authors: env.config.as_ref().unwrap().project.authors.clone(),
@@ -197,7 +204,14 @@ pub(crate) fn world_template(env: &Environment) -> Manifest {
             version: version_as_array(env.config.as_ref().unwrap().project.version.as_str())
                 .unwrap(),
         }]),
-        dependencies: None,
+        dependencies: {
+            let deps = &env.config.as_ref().unwrap().pack.wt.dependencies;
+            if deps.is_empty() {
+                None
+            } else {
+                Some(deps.clone())
+            }
+        },
         capabilities: None,
         metadata: Some(Metadata {
             authors: env.config.as_ref().unwrap().project.authors.clone(),

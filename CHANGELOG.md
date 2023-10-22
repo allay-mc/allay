@@ -7,6 +7,8 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Implement extra dependencies functionality for skin packs and world templates
+  (#23).
 - Add support for `exclude` field in the `[build]` section (#14).
 - Add `use-custom-manifest` field (#5).
 - Add `build` directory to gitignore.
@@ -22,6 +24,11 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 - `add` is now an optional feature and can be disabled.
 - `doc` is now an optional feature and can be disabled.
 - `--release` option for `build` now only depends on presence instead of a value.
+
+### Fixed
+
+- Resource packs now include extra dependencies from themselves instead of the ones
+  from the behavior pack.
 
 ### Removed
 
