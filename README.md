@@ -22,6 +22,42 @@
 - 📖 [Read the Documentation](https://allay-mc.github.io/docs/)
 - 📦 [Crate](https://crates.io/crates/allay)
 
+<p align="center">
+<a href="https://allay-mc.github.io/docs/">
+  <img
+    alt="Documentation"
+    src="https://img.shields.io/badge/Documentation-Read-brown?style=for-the-badge"
+  />
+</a>
+
+<a href="https://crates.io/crates/allay">
+  <img
+    alt="Crates.io"
+    src="https://img.shields.io/crates/v/allay?style=for-the-badge&label=Version&color=lightblue"
+  />
+</a>
+<a href="https://github.com/allay-mc/allay/commit/master">
+  <img
+    alt="GitHub commit activity (branch)"
+    src="https://img.shields.io/github/commit-activity/m/allay-mc/allay?style=for-the-badge"
+  />
+</a>
+
+<a href="https://github.com/allay-mc/allay/releases">
+  <img
+    alt="GitHub (Pre-)Release Date"
+    src="https://img.shields.io/github/release-date-pre/allay-mc/allay?style=for-the-badge"
+  />
+</a>
+
+<a href="https://github.com/allay-mc/allay/graphs/contributors">
+  <img
+    alt="GitHub contributors"
+    src="https://img.shields.io/github/contributors/allay-mc/allay?style=for-the-badge"
+  />
+</a>
+</p>
+
 
 ## Status
 
