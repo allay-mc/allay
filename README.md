@@ -12,8 +12,7 @@
 </p>
 
 
-> **Warning**
->
+> [!WARNING]
 > This project is in a work-in-progress status. Many features as well as
 > links may not work yet. Consider waiting for a stable release if you
 > want to use this program.
