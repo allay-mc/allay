@@ -35,7 +35,6 @@ allay build
 
 Feature             | Flag             | Description                     | Enabled by default[^1]
 --------------------|------------------|---------------------------------|-----------------------
-**plugins command** | `plugin-manager` | Manage plugins                  | yes
 **share command**   | `share`          | Shares add-ons over HTTP        | yes
 **export command**  | `export`         | Exports add-ons to Minecraft    | yes
 **schema command**  | `config-schema`  | JSON schema for config file     | no
