@@ -1,0 +1,2 @@
+.allay/    # This directory contains private information about the project
+*.mcaddon  # The built add-on(s) should be published seperately for instance with GitHub Releases

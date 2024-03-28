@@ -1,0 +1,11 @@
+[project]
+name = "My Awesome Project"
+description = { en-us = "This is my awesome project made with Allay" }
+version = "0.1.0"
+min-engine-version = "1.20.0" # consider updating this to the most recent version
+
+[localization]
+primary-language = "en-us"
+
+[env]
+# Here you can specify extra environment variables accessable by plugins.

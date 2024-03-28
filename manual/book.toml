@@ -1,0 +1,22 @@
+[book]
+authors = ["Jonas da Silva"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Allay Manual"
+
+[output.html]
+additional-css = ["theme/whichlang.css", "./theme/mdbook-admonish.css"]
+additional-js = ["scripts/whichlang.js"]
+curly-quotes = true
+git-repository-url = "https://github.com/allay-mc/allay"
+no-section-label = true
+
+[build]
+build-dir = "site"
+
+[preprocessor]
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`

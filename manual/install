@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cargo install --force --version 0.4.37 mdbook
+cargo install --force --version 1.15.0 mdbook-admonish
