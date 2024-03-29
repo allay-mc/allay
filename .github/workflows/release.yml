@@ -201,7 +201,7 @@ jobs:
       shell: bash
       run: |
         version="${{ needs.create-release.outputs.version }}"
-        echo "ARCHIVE=allay-$version-${{ matrix.target }}" >> $GITHUB_ENV
+        echo "ARCHIVE=allay-${{ matrix.target }}" >> $GITHUB_ENV
 
     - name: Creating directory for archive
       shell: bash
