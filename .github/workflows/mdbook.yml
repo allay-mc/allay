@@ -45,6 +45,9 @@ jobs:
         run: |
           cd manual
           mdbook build
+      - name: Avoid jekyll
+        run: |
+          touch ./manual/site/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
