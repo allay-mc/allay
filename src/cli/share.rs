@@ -2,7 +2,7 @@
 
 use super::build;
 use super::prelude::*;
-use allay::paths;
+use crate::paths;
 use clap::{Arg, ArgMatches, Command};
 use local_ip_address::local_ip;
 use qrcode::QrCode;

@@ -1,5 +1,5 @@
 use super::prelude::*;
-use allay::project::Project;
+use crate::project::Project;
 use clap::{ArgMatches, Command};
 use std::process::ExitCode;
 use std::time::Instant;

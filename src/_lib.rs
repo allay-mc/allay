@@ -2,9 +2,6 @@
 #![doc(html_logo_url = "https://raw.githubusercontent.com/allay-mc/assets/main/logo-1080x.png")]
 #![doc = include_str!("../README.md")]
 
-// TODO: only use Deserialize/Serialize where needed
-// TODO: change visibility of items, maybe just make it executable only
-
 pub mod config;
 pub mod diagnostic;
 pub mod error;

@@ -1,8 +1,8 @@
 use std::fs;
 
-use allay::paths;
-use allay::uuid::Uuids;
-use allay::Pack;
+use crate::paths;
+use crate::uuid::Uuids;
+use crate::Pack;
 use clap::{Arg, ArgMatches, Command};
 
 pub fn cmd() -> Command {

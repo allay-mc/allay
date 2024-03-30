@@ -1,4 +1,4 @@
-use allay::{paths, Health};
+use crate::{paths, Health};
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use std::process::ExitCode;
 

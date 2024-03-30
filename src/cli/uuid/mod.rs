@@ -1,4 +1,4 @@
-use allay::Project;
+use crate::Project;
 use clap::{ArgMatches, Command};
 use prettytable::format::consts::*;
 use std::process::ExitCode;

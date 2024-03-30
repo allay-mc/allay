@@ -1,6 +1,6 @@
 use super::build;
 use super::prelude::*;
-use allay::paths;
+use crate::paths;
 use clap::{ArgMatches, Command};
 use std::process::ExitCode;
 

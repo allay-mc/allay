@@ -1,4 +1,4 @@
-use allay::paths;
+use crate::paths;
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use std::{fs, process::ExitCode};
 

@@ -1,4 +1,4 @@
-use allay::Config;
+use crate::Config;
 use clap::{Arg, ArgMatches, Command};
 use std::process::ExitCode;
 

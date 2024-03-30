@@ -54,8 +54,8 @@ share = ["tokio", "warp", "qrcode", "local-ip-address"]
 watch = ["notify", "notify-debouncer-mini"]
 
 
-[lib]
-name = "allay"
+# [lib]
+# name = "allay"
 
 [[bin]]
 doc = false

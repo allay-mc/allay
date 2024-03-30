@@ -1,5 +1,5 @@
 use super::prelude::*;
-use allay::{paths, Project};
+use crate::{paths, Project};
 use clap::{ArgMatches, Command};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;

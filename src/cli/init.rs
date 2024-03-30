@@ -1,4 +1,4 @@
-use allay::Project;
+use crate::project::{Project, ProjectInitConfig};
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use std::path::PathBuf;
 use std::process::ExitCode;
@@ -32,12 +32,8 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
     let force: bool = matches.get_flag("force");
     let with_gitignore: bool = matches.get_flag("gitignore");
 
-    Project::new(
-        path,
-        force,
-        allay::project::ProjectInitConfig { with_gitignore },
-    )
-    .expect("Failed do initialize project");
+    Project::new(path, force, ProjectInitConfig { with_gitignore })
+        .expect("Failed do initialize project");
 
     ExitCode::SUCCESS
 }

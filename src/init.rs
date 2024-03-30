@@ -3,7 +3,7 @@
 //! This is an important step when Allay is used the first time as it creates directories used for saving
 //! log files for example. This should also be run when such directories are deleted by the user.
 
-use allay::paths;
+use crate::paths;
 use std::fs;
 use std::io::ErrorKind;
 

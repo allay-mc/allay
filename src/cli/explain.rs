@@ -1,4 +1,4 @@
-use allay::diagnostic::{self, Diagnostic};
+use crate::diagnostic::{self, Diagnostic};
 use clap::{Arg, ArgMatches, Command};
 use std::process::ExitCode;
 

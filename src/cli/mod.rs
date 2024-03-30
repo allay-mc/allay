@@ -16,7 +16,7 @@ mod uuid;
 #[cfg(feature = "watch")]
 mod watch;
 
-use allay::paths;
+use crate::paths;
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use log::{Level, LevelFilter};
 use simplelog::{
