@@ -25,7 +25,7 @@ the paths in the temporary directory ("prebuilt directory").
 - `ALLAY_PROJECT_ROOT` --- The root of the project root (the directory with the `allay.toml` file).
 - `ALLAY_VERSION` --- The version of Allay that is beeing used.
 
-On top of that users may define extra keywords in the [`[env]`](./configuration.md#env) section of the configuration file.
+On top of that users may define extra environment variables in the [`[env]`](./configuration.md#env) section of the configuration file.
 
 
 ### Configuration
