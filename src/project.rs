@@ -147,7 +147,7 @@ impl Project {
                 };
                 let p = dest.join("manifest.json");
                 if p.try_exists().unwrap_or(false) && p.is_file() {
-                    log::warn!("{}", diagnostic::Warning::RedundantManifest);
+                    log::warn!("{}", diagnostic::Notification::RedundantManifest);
                 };
                 fs::write(&p, json)?;
             }
@@ -162,7 +162,7 @@ impl Project {
                 log::debug!("Copying pack icon");
                 let p = dest.join("pack_icon.png");
                 if p.try_exists().unwrap_or(false) && p.is_file() {
-                    log::warn!("{}", diagnostic::Warning::RedundantPackIcon);
+                    log::warn!("{}", diagnostic::Notification::RedundantPackIcon);
                 };
                 fs::copy(paths::pack_icon(), dest.join("pack_icon.png"))?;
             }
@@ -233,7 +233,7 @@ impl Project {
         }
 
         if packs.is_empty() {
-            log::warn!("{}", diagnostic::Warning::EmptyAddOn);
+            log::warn!("{}", diagnostic::Notification::EmptyAddOn);
             return Ok(());
         }
 

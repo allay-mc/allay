@@ -12,6 +12,7 @@ mod prelude;
 mod schema;
 #[cfg(feature = "share")]
 mod share;
+mod sync;
 mod uuid;
 #[cfg(feature = "watch")]
 mod watch;
@@ -87,6 +88,7 @@ pub fn cmd() -> Command {
             schema::cmd(),
             #[cfg(feature = "share")]
             share::cmd(),
+            sync::cmd(),
             uuid::cmd(),
             #[cfg(feature = "watch")]
             watch::cmd(),
@@ -170,6 +172,7 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
         Some(("schema", m)) => schema::run(m),
         #[cfg(feature = "share")]
         Some(("share", m)) => share::run(m),
+        Some(("sync", m)) => sync::run(m),
         Some(("uuid", m)) => uuid::run(m),
         #[cfg(feature = "watch")]
         Some(("watch", m)) => watch::run(m),

@@ -1,5 +1,3 @@
-// TODO: impl errors
-
 use std::fmt::Display;
 
 pub const ERROR_PREFIX: char = 'E';
@@ -10,18 +8,28 @@ pub trait Diagnostic {
     fn extensive_description(&self) -> Option<&str>;
     fn code(self) -> u8;
     fn id(self) -> String;
-    fn from_code(code: u8) -> Self;
+    fn from_code(code: u8) -> Option<Self>
+    where
+        Self: Sized;
+    fn kind(self) -> Kind;
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum Kind {
+    Error,
+    Warning,
 }
 
 #[derive(Copy, Clone)]
-#[repr(u8)]
-pub enum Warning {
-    RedundantManifest = 1,
-    RedundantPackIcon = 2,
-    EmptyAddOn = 3,
+pub enum Notification {
+    RedundantManifest,
+    RedundantPackIcon,
+    EmptyAddOn,
+    ComMojangNotFoundAndroid,
+    ComMojangWindows,
 }
 
-impl Diagnostic for Warning {
+impl Diagnostic for Notification {
     fn brief_description(&self) -> &str {
         match self {
             Self::RedundantManifest => {
@@ -31,6 +39,9 @@ impl Diagnostic for Warning {
                 "Found `pack_icon.png` but ignoring it as `custom-pack-icon` is not set to `true`"
             }
             Self::EmptyAddOn => "Add-On contains no packs",
+            Self::ComMojangNotFoundAndroid | Self::ComMojangWindows => {
+                "The `com.mojang` folder cannot be found"
+            }
         }
     }
 
@@ -39,23 +50,55 @@ impl Diagnostic for Warning {
             Self::RedundantManifest => Some(include_str!("redundant_manifest.md")),
             Self::RedundantPackIcon => Some(include_str!("redundant_pack_icon.md")),
             Self::EmptyAddOn => None,
+            Self::ComMojangNotFoundAndroid => Some(include_str!("com_mojang_not_found_android.md")),
+            Self::ComMojangWindows => None,
         }
     }
 
     fn code(self) -> u8 {
-        self as u8
+        match self {
+            Self::RedundantManifest => 1,
+            Self::RedundantPackIcon => 2,
+            Self::EmptyAddOn => 3,
+            Self::ComMojangNotFoundAndroid => 4,
+            Self::ComMojangWindows => 5,
+        }
     }
 
     fn id(self) -> String {
-        format!("W{:03}", self.code())
+        format!(
+            "{}{:03}",
+            match self.kind() {
+                Kind::Error => ERROR_PREFIX,
+                Kind::Warning => WARNING_PREFIX,
+            },
+            self.code()
+        )
     }
 
-    fn from_code(code: u8) -> Self {
-        unsafe { std::mem::transmute::<u8, Self>(code) }
+    fn from_code(code: u8) -> Option<Self> {
+        match code {
+            1 => Some(Self::RedundantManifest),
+            2 => Some(Self::RedundantPackIcon),
+            3 => Some(Self::EmptyAddOn),
+            4 => Some(Self::ComMojangNotFoundAndroid),
+            5 => Some(Self::ComMojangWindows),
+            _ => None,
+        }
+    }
+
+    fn kind(self) -> Kind {
+        match self {
+            Self::RedundantManifest => Kind::Warning,
+            Self::RedundantPackIcon => Kind::Warning,
+            Self::EmptyAddOn => Kind::Warning,
+            Self::ComMojangNotFoundAndroid => Kind::Error,
+            Self::ComMojangWindows => Kind::Error,
+        }
     }
 }
 
-impl Display for Warning {
+impl Display for Notification {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
