@@ -29,6 +29,15 @@ impl Health {
         true
     }
 
+    pub fn check_all_except_uuids(&self) -> bool {
+        for success in [self.check_internal(), self.check_uuids_presence()] {
+            if !success {
+                return false;
+            }
+        }
+        true
+    }
+
     pub fn check_internal(&self) -> bool {
         let internal = self.root.join(paths::internal());
         if internal.exists() {

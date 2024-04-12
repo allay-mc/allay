@@ -92,12 +92,11 @@ impl Project {
     }
 
     pub fn build(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        // FIXME: generate UUIDs if neccessary
         let health = Health {
             root: paths::root(),
             fix: false,
         };
-        if !health.check_all() {
+        if !health.check_all_except_uuids() {
             return Err(Box::new(Error::InvalidProjectSetup));
         };
 
@@ -131,6 +130,11 @@ impl Project {
                 &dest,
                 &copy_options,
             )?;
+
+            log::debug!("Adding fingerprint");
+            if let Err(e) = fs::write(&dest.join(".allay-fingerprint"), self.id) {
+                log::error!("Failed to add fingerprint: {}", e);
+            };
 
             let generate_manifest = !match pack {
                 Pack::Behavior => self.config.bp.custom_manifest,

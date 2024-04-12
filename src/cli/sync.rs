@@ -1,6 +1,10 @@
 use clap::{ArgMatches, Command};
 use std::{env, path::PathBuf, process::ExitCode};
 
+const DEV_BP: &'static str = "development_behavior_packs";
+const DEV_RP: &'static str = "development_resource_packs";
+const DEV_SP: &'static str = "development_skin_packs";
+
 mod location {
     use crate::diagnostic;
     use std::{env, path::PathBuf};
@@ -56,5 +60,5 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
             None => return ExitCode::FAILURE,
         },
     };
-    todo!("find packs with same id as current project and update them")
+    todo!("find packs with same id as current project and update them");
 }
