@@ -153,7 +153,7 @@ impl Health {
             if data.wt.module.is_none() {
                 if self.fix {
                     log::info!("Add missing WT module UUID");
-                    data.bp.update_module(None);
+                    data.wt.update_module(None);
                     modified = true;
                 } else {
                     log::error!("WT module UUID is missing; try `allay health --fix`");
@@ -175,8 +175,8 @@ impl Health {
 }
 
 /// Returns `true` when `dir` contains files or directories.
-fn has_content(dir: &PathBuf) -> bool {
+pub fn has_content(dir: &PathBuf) -> bool {
     dir.read_dir()
-        .map(|entries| entries.count().eq(&0))
+        .map(|entries| entries.count() > 0)
         .unwrap_or_default()
 }

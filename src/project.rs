@@ -1,3 +1,4 @@
+use crate::health::has_content;
 use crate::localization::{
     generate_language_json, update_language_files, Localized, OptionallyLocalized,
 };
@@ -156,7 +157,7 @@ impl Project {
                 Pack::Behavior => self.config.bp.custom_pack_icon,
                 Pack::Resource => self.config.rp.custom_pack_icon,
                 Pack::Skin => self.config.sp.custom_pack_icon,
-                Pack::WorldTemplate => self.config.wt.custom_pack_icon,
+                Pack::WorldTemplate => false,
             };
             if copy_pack_icon {
                 log::debug!("Copying pack icon");
@@ -289,6 +290,65 @@ impl Project {
                         }
                     }
                 };
+            }
+        }
+
+        {
+            let rp = prebuild.join("RP");
+            let bp = prebuild.join("BP");
+            let wt = prebuild.join("WT");
+
+            let has_rp = has_content(&Pack::Resource.path_src().unwrap());
+            let has_bp = has_content(&Pack::Behavior.path_src().unwrap());
+            let has_wt = has_content(&Pack::WorldTemplate.path_src().unwrap());
+
+            if has_wt && !self.config.wt.exclude_bp && has_bp {
+                log::debug!("Copying behavior pack to world template");
+
+                let dest = wt.join("behavior_packs");
+                // TODO: rename `RP`/`BP` to a less generic name (?)
+                let copy = || {
+                    if let Err(e) = fs_extra::dir::copy(bp, &dest, &copy_options) {
+                        log::error!("Failed to copy behavior pack to world template: {}", e);
+                    };
+                };
+                if dest.exists() {
+                    copy()
+                } else {
+                    match fs::create_dir(&dest) {
+                        Ok(_) => copy(),
+                        Err(e) => {
+                            log::error!(
+                                "Failed to create behavior pack directory in world template: {}",
+                                e
+                            );
+                        }
+                    };
+                }
+            }
+
+            if has_wt && !self.config.wt.exclude_rp && has_rp {
+                log::debug!("Copying resource pack to world template");
+
+                let dest = wt.join("resource_packs");
+                let copy = || {
+                    if let Err(e) = fs_extra::dir::copy(rp, &dest, &copy_options) {
+                        log::error!("Failed to copy resource pack to world template: {}", e);
+                    };
+                };
+                if dest.exists() {
+                    copy();
+                } else {
+                    match fs::create_dir(&dest) {
+                        Ok(_) => copy(),
+                        Err(e) => {
+                            log::error!(
+                                "Failed to create resource pack directory in world template: {}",
+                                e
+                            );
+                        }
+                    };
+                }
             }
         }
 

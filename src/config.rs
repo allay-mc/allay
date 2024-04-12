@@ -408,9 +408,16 @@ pub struct WT {
     #[serde(default)]
     pub custom_manifest: bool,
 
-    /// Whether to use the `pack_icon.png` file in the `WT` directory instead of generating one.
+    /// Whether to exclude the resource pack from the world template.
     #[serde(default)]
-    pub custom_pack_icon: bool,
+    pub exclude_rp: bool,
+
+    /// Whether to exclude the behavior pack from the world template.
+    #[serde(default)]
+    pub exclude_bp: bool,
+
+    #[serde(default)]
+    pub allow_random_seed: bool,
 
     /// Override name for behavior pack.
     #[serde(default)]
