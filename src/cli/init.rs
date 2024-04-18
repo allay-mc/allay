@@ -13,6 +13,12 @@ pub fn cmd() -> Command {
                 .default_value("."),
         )
         .arg(
+            Arg::new("init-git")
+                .long("no-git")
+                .help("Prevents creation of a git repository")
+                .action(ArgAction::SetFalse),
+        )
+        .arg(
             Arg::new("gitignore")
                 .long("no-gitignore")
                 .help("Prevents creation of `.gitignore` file")
@@ -31,9 +37,18 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
     let path: &PathBuf = matches.get_one("dir").unwrap();
     let force: bool = matches.get_flag("force");
     let with_gitignore: bool = matches.get_flag("gitignore");
+    let init_git: bool = matches.get_flag("init-git");
 
-    Project::new(path, force, ProjectInitConfig { with_gitignore })
-        .expect("Failed do initialize project");
+    Project::new(
+        path,
+        force,
+        ProjectInitConfig {
+            with_gitignore,
+            #[cfg(feature = "git")]
+            init_git,
+        },
+    )
+    .expect("Failed do initialize project");
 
     ExitCode::SUCCESS
 }

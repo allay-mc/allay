@@ -19,7 +19,12 @@ use zip_extensions::write::zip_create_from_directory;
 
 #[derive(Clone, Copy, Debug)]
 pub struct ProjectInitConfig {
+    /// Whether to generate a `.gitignore` file.
     pub with_gitignore: bool,
+
+    #[cfg(feature = "git")]
+    /// Whether to initialite a new git repository.
+    pub init_git: bool,
 }
 
 #[derive(Clone)]
@@ -36,7 +41,6 @@ pub struct Project {
 
 impl Project {
     pub fn new(dir: &PathBuf, force: bool, config: ProjectInitConfig) -> Result<Self, io::Error> {
-        // TODO: initialize new git repo
         let empty = dir.read_dir()?.count().eq(&0);
         if !empty && !force {
             return Err(io::Error::new(
@@ -62,6 +66,13 @@ impl Project {
         fs::write(dir.join(paths::uuids()), uuids.to_string())?;
         fs::write(dir.join(paths::version()), clap::crate_version!())?;
         fs::write(dir.join(paths::project_id()), id.to_string())?;
+        #[cfg(feature = "git")]
+        {
+            match git2::Repository::init(&dir) {
+                Ok(_repo) => {}
+                Err(e) => log::error!("Failed to initialize git repository: {}", e),
+            };
+        };
         if config.with_gitignore {
             fs::write(dir.join(paths::gitignore()), scaffolding::GITIGNORE)?;
         }
