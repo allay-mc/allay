@@ -54,8 +54,17 @@ impl Health {
 
     pub fn check_uuids(&self) -> bool {
         let uuids = self.root.join(paths::uuids());
-        // TODO: validate file format
-        if uuids.exists() {
+        let valid_file_format: bool = (|| {
+            toml::from_str::<toml::Value>(match fs::read_to_string(&uuids) {
+                Ok(ref data) => &data,
+                Err(e) => {
+                    log::error!("Failed to read UUID file: {}", e);
+                    return false;
+                }
+            })
+            .is_ok()
+        })();
+        if uuids.exists() && valid_file_format {
             true
         } else if self.fix {
             log::info!("Fix missing UUIDs");
