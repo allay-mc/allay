@@ -24,7 +24,7 @@ cd my-project
 allay init
 
 # populate add-on
-echo '{"foo": "bar"}' > src/BP/hello.json
+$EDITOR src/BP/hello.json
 
 # build add-on
 allay build
@@ -33,16 +33,19 @@ allay build
 
 ## Additional Features
 
-Feature             | Flag             | Description                     | Enabled by default[^1]
---------------------|------------------|---------------------------------|-----------------------
-**share command**   | `share`          | Shares add-ons over HTTP        | yes
-**export command**  | `export`         | Exports add-ons to Minecraft    | yes
-**git**             | `git`            | Handles `git`                   | yes
-**schema command**  | `config-schema`  | JSON schema for config file     | no
-**watch command**   | `watch`          | Rebuild add-ons on file changes | yes
-**manual command**  | `manual`         | Opens the manual                | yes
+Feature               | Flag                | Description                     | Enabled by default
+----------------------|---------------------|---------------------------------|-------------------
+**share command**     | `share`             | Shares add-ons over HTTP        | yes
+**export command**    | `export`            | Exports add-ons to Minecraft    | yes
+**git**               | `git`               | Handles `git`                   | yes
+**shell completions** | `shell-completions` | Generates shell completions     | yes
+**schema command**    | `config-schema`     | JSON schema for config file     | no
+**watch command**     | `watch`             | Rebuild add-ons on file changes | yes
+**manual command**    | `manual`            | Opens the manual                | yes
 
-[^1]: This only applies for installing/building without specifying any flags.
+To enable features that are not active by default, use `-F <feature name>` when installing/building
+Allay (for example: `cargo install -F config-schema allay`). To disable all default features, use the
+`--no-default-features` (for example: `cargo install --no-default-features -F git allay`).
 
 
 ## Versioning

@@ -1,4 +1,6 @@
 mod build;
+#[cfg(feature = "shell-completions")]
+mod completions;
 mod explain;
 #[cfg(feature = "export")]
 mod export;
@@ -76,6 +78,8 @@ pub fn cmd() -> Command {
         )
         .subcommands([
             build::cmd(),
+            #[cfg(feature = "shell-completions")]
+            completions::cmd(),
             explain::cmd(),
             #[cfg(feature = "export")]
             export::cmd(),
@@ -160,6 +164,8 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
 
     match matches.subcommand() {
         Some(("build", m)) => build::run(m),
+        #[cfg(feature = "shell-completions")]
+        Some(("completions", m)) => completions::run(m),
         Some(("explain", m)) => explain::run(m),
         #[cfg(feature = "export")]
         Some(("export", m)) => export::run(m),

@@ -44,16 +44,18 @@ rhai = { version = "1.17.1", features = [
     "no_custom_syntax"
 ] }
 git2 = { version = "0.18.3", optional = true }
+clap_complete = { version = "4.5.2", optional = true }
 
 [features]
 # See README.md for descriptions about the features.
-default = ["export", "git", "manual", "share", "watch"]
+default = ["export", "git", "manual", "share", "shell-completions", "watch"]
 config-schema = ["schemars"]
 export = ["open"]
 git = ["git2"]
 manual = ["open"]
 share = ["tokio", "warp", "qrcode", "local-ip-address"]
 watch = ["notify", "notify-debouncer-mini"]
+shell-completions = ["clap_complete"]
 
 
 # [lib]
