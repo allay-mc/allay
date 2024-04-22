@@ -30,7 +30,7 @@ impl Health {
     }
 
     pub fn check_all_except_uuids(&self) -> bool {
-        for success in [self.check_internal(), self.check_uuids_presence()] {
+        for success in [self.check_internal(), self.check_uuids()] {
             if !success {
                 return false;
             }
