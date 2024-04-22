@@ -1,4 +1,11 @@
+use super::build;
+use super::prelude::*;
+use crate::paths;
+use crate::Project;
 use clap::{ArgMatches, Command};
+use libuuid::Uuid;
+use std::fs;
+use std::str::FromStr;
 use std::{env, path::PathBuf, process::ExitCode};
 
 const DEV_BP: &'static str = "development_behavior_packs";
@@ -48,11 +55,38 @@ mod location {
     }
 }
 
+fn update(dev_dir: &PathBuf, projet_id: &Uuid) -> bool {
+    for pack in dev_dir.read_dir().expect("failed to read dir") {
+        match pack {
+            Ok(pack) => {
+                let path = pack.path();
+                if !path.is_dir() {
+                    continue;
+                }
+                let fingerprint = path.join(paths::FINGERPRINT);
+                match fs::read_to_string(fingerprint) {
+                    Ok(value) => {
+                        return Uuid::from_str(&value).is_ok_and(|value| &value == projet_id);
+                    }
+                    Err(e) => log::error!("failed to read fingerprint file: {}", e),
+                }
+            }
+            Err(e) => log::error!("failed to read entry of pack direcrory: {}", e),
+        };
+    }
+    false
+}
+
 pub fn cmd() -> Command {
-    Command::new("sync").about("Update the associated packs in the Minecraft directories")
+    Command::new("sync")
+        .about("Update the associated packs in the Minecraft directories")
+        .arg_build_opts()
 }
 
 pub fn run(matches: &ArgMatches) -> ExitCode {
+    build::run(matches);
+    let id = Project::current().unwrap().id;
+
     let com_mojang: PathBuf = match env::var_os("COM_MOJANG") {
         Some(var) => PathBuf::from(var),
         None => match location::get() {
@@ -60,5 +94,33 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
             None => return ExitCode::FAILURE,
         },
     };
-    todo!("find packs with same id as current project and update them");
+
+    let mut updated_any = false;
+    for entry in com_mojang
+        .read_dir()
+        .expect("cannot read com_mojang directory")
+    {
+        match entry {
+            Ok(entry) => {
+                for dir in [DEV_BP, DEV_RP, DEV_SP] {
+                    let p = entry.path().join(dir);
+                    if p.is_dir() {
+                        let updated = update(&p, &id);
+                        if updated {
+                            updated_any = true;
+                        }
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!("Failed to read entry of com_mojang directory: {}", e);
+            }
+        }
+    }
+
+    if updated_any {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    }
 }

@@ -143,7 +143,7 @@ impl Project {
             )?;
 
             log::debug!("Adding fingerprint");
-            if let Err(e) = fs::write(&dest.join(".allay-fingerprint"), self.id) {
+            if let Err(e) = fs::write(&dest.join(paths::FINGERPRINT), self.id) {
                 log::error!("Failed to add fingerprint: {}", e);
             };
 
