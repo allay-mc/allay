@@ -17,7 +17,13 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
         .then(|| true)
         .or(matches.get_flag("build-release").then(|| false));
     let now = Instant::now();
-    let mut project = Project::current().unwrap();
+    let mut project = match Project::current() {
+        Ok(p) => p,
+        Err(e) => {
+            log::error!("{}", e);
+            return ExitCode::FAILURE;
+        }
+    };
     if let Some(debug_mode) = debug_mode {
         project.config.debug = debug_mode;
     }
