@@ -47,7 +47,7 @@ impl Pack {
     pub fn bundle_file_extension(&self) -> &'static str {
         match self {
             Self::Behavior | Self::Resource | Self::Skin => "mcpack",
-            Self::WorldTemplate => "mctemplate", // TODO: `mcworld`?
+            Self::WorldTemplate => "mctemplate",
         }
     }
 

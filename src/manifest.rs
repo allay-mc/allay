@@ -70,7 +70,11 @@ impl Manifest {
                     Pack::WorldTemplate => Some(project.config.wt.allow_random_seed),
                     _ => None,
                 },
-                base_game_version: None, // FIXME: this seems to be required for world templates
+                base_game_version: if pack == Pack::WorldTemplate {
+                    Some(project.config.wt.base_game_version)
+                } else {
+                    None
+                },
                 description: String::from("pack.description"),
                 lock_template_options: None,
                 min_engine_version: Some(version_from_string(
@@ -353,12 +357,15 @@ impl From<BehaviorPackType> for ModuleType {
 
 /// In the header of your world template's manifest, you will need to specify the Minecraft version your
 /// world template was created for using the `base_game_version` field.
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub enum BaseGameVersion {
     /// If your content is version agnostic (such as a simple survival spawn which
     /// is unlikely to break from future updates), you can forgo locking your
     /// content to a specific version by using a "wildcard": "base_game_version": "*".
+    #[default]
+    #[serde(rename = "*")]
     Wild,
 
+    #[serde(untagged)]
     Version(usize, usize, usize),
 }

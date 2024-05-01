@@ -4,7 +4,10 @@
 
 use std::{collections::HashMap, path::PathBuf};
 
-use crate::localization::{Language, LanguageGroups, OptionallyLocalized};
+use crate::{
+    localization::{Language, LanguageGroups, OptionallyLocalized},
+    manifest::BaseGameVersion,
+};
 use serde::Deserialize;
 
 /// A version string.
@@ -418,6 +421,9 @@ pub struct WT {
 
     #[serde(default)]
     pub allow_random_seed: bool,
+
+    #[serde(default)]
+    pub base_game_version: BaseGameVersion,
 
     /// Override name for behavior pack.
     #[serde(default)]
