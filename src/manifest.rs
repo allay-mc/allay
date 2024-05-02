@@ -263,7 +263,7 @@ impl From<&config::Dependency> for Dependency {
     fn from(value: &config::Dependency) -> Self {
         Self {
             uuid: match &value.id {
-                config::Identifier::ModuleName(_) => todo!("module_name key"),
+                config::Identifier::ModuleName(_) => todo!("module_name key; use UUID instead"),
                 config::Identifier::Uuid(id) => id.to_string(),
             },
             version: version_from_string(&value.version),

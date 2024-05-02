@@ -290,6 +290,7 @@ pub struct Dependency {
     derive(schemars::JsonSchema),
     schemars(deny_unknown_fields)
 )]
+#[serde(rename_all = "kebab-case")]
 pub enum Identifier {
     /// The name of the dependency to use (e.g. `@minecraft/server`).
     ModuleName(String),
@@ -407,7 +408,7 @@ pub struct SP {
 )]
 #[serde(rename_all = "kebab-case")]
 pub struct WT {
-    /// Whether to use the `manifest.json` file in the `WR` directory instead of generating one.
+    /// Whether to use the `manifest.json` file in the `WT` directory instead of generating one.
     #[serde(default)]
     pub custom_manifest: bool,
 
@@ -432,11 +433,4 @@ pub struct WT {
     /// Override description for behavior pack.
     #[serde(default)]
     pub description: Option<OptionallyLocalized<String>>,
-
-    /// Define extra dependencies.
-    ///
-    /// Note that the behavior pack and the resource pack definined in the same project will depend on each
-    /// other by default.
-    #[serde(default)]
-    pub dependencies: Vec<Dependency>,
 }
