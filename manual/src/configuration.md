@@ -63,6 +63,22 @@ behavior.
 
 ### The `name` field
 
+Specify the name of the project.
+
+```toml
+[project]
+name = "Hello World"
+```
+
+It's also possible to localize the name:
+
+```toml
+[project.name]
+de-de = "Hallo Welt"
+en-us = "Hello World"
+```
+
+
 ### The `description` field
 
 Defines the description of the project. This has the same structure as [`name`](#the-name-field).
@@ -70,13 +86,55 @@ Defines the description of the project. This has the same structure as [`name`](
 
 ### The `version` field
 
+The version of the project of the form `<major>.<minor>.<patch>`.
+
+```toml
+[project]
+# ...
+version = "1.3.0"
+```
+
+
 ### The `authors` field
+
+Specify the authors of the project. This is an array with strings of the form
+`<full name> <email (optional)>`.
+
+```toml
+[project]
+# ...
+authors = ["John Doe <john.doe@example.org>", "Jane Doe"]
+```
+
 
 ### The `license` field
 
+Specify the license of the project. This should but is not required to match a [SPDX][] identifier.
+
+```toml
+[project]
+# ...
+license = "MIT"
+```
+
+
 ### The `url` field
 
+Specify the URL of the project.
+
+```toml
+[project]
+# ...
+url = "https://github.com/allay-mc/allay"
+```
+
+
 ### The `min-engine-version` field
+
+> This is the minimum version of the game that this pack was written for. This is a required field for
+> resource and behavior packs. This helps the game identify whether any backwards compatibility is needed
+> for your pack. You should always use the highest version currently available when creating packs.
+
 
 ## The `[localization]` section
 
@@ -86,9 +144,29 @@ Defines the description of the project. This has the same structure as [`name`](
 
 ## The `[env]` section
 
+This section can be used to provide arbitrary arguments for plugins.
+
+```toml
+[env]
+FOO = "1"
+BAR = "Hello"
+```
+
+```admonish title="See Also"
+[Plugins Chapter](./plugins.md)
+```
+
 ## The `[build]` section
 
 ### The `extra-watch-dirs` field
+
+Controls which directories should trigger a rebuild on changes when using the `watch` command.
+
+```toml
+[build]
+extra-watch-dirs = ["plugins"]
+```
+
 
 ## The `[[plugin]]` sections
 
@@ -109,12 +187,27 @@ Defines the description of the project. This has the same structure as [`name`](
 These sections can be used to for pack-specific configurations.
 
 The `[BP]` section also allows specifying the type of behavior pack by setting `type` to `data` or `script`.
+The `[WT]` section also allows specifying `allow_random_seed` and `base_game_version`.
 
 
 ### The `custom_manifest` field
 
+Whether to use the `manifest.json` file in the pack's directory instead of generating one.
+
+
 ### The `custom_pack_icon` field
+
+Whether to use the `pack_icon.png` file in the pack's directory instead of generating one. This field does
+not exist for world template configuration.
+
 
 ### The `name` and `description` field
 
+By default `project.name` and `project.description` are applied for all packs. You can override those with
+the `name` and `description` field. They both have the same structure as `project.name`/`project.description`.
+
+
 ### The `dependencies` field
+
+
+[SPDX]: https://spdx.org/licenses/
