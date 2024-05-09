@@ -40,7 +40,10 @@ impl From<&config::Plugin> for ExecutablePlugin {
                 };
                 match &value.args {
                     config::PluginArgs::Options(options) => {
-                        args.push(serde_json::to_string(&options).expect("TODO"));
+                        args.push(
+                            serde_json::to_string(&options)
+                                .expect("failed to transform TOML to JSON"),
+                        );
                     }
                     config::PluginArgs::Args(a) => args.extend(a.to_vec()),
                 };
@@ -65,10 +68,11 @@ impl Plugin for ExecutablePlugin {
         let mut cmd = Command::new(&self.program);
         let cmd = cmd.args(&self.args).envs(env_vars);
         let output = cmd.output()?;
+        let name = self.name().unwrap_or("<unnamed>".to_string());
         if output.status.success() {
-            log::info!("Successfully run plugin {}", "TODO");
+            log::info!("Successfully run plugin {}", &name);
         } else {
-            log::error!("Plugin {} did not run successful", "TODO");
+            log::error!("Plugin {} did not run successful", &name);
         }
         Ok(output.stdout)
     }

@@ -138,7 +138,7 @@ impl Manifest {
                 Pack::Skin => None,
                 Pack::WorldTemplate => None,
             },
-            capabilities: None, // TODO
+            capabilities: project.config.capabilities, // FIXME: doesn't work; TODO: does this apply for all pack kinds?
             metadata: Some(Metadata {
                 authors: project.config.project.authors,
                 license: project.config.project.license,
@@ -289,12 +289,13 @@ pub enum Language {
     derive(schemars::JsonSchema),
     schemars(deny_unknown_fields)
 )]
+#[serde(rename_all(deserialize = "kebab-case"))]
 pub struct Capabilities {
     /// The pack can add, remove, or modify chemistry behavior.
     pub chemistry: bool,
 
     /// Indicates that this pack contains extensions for editing.
-    #[serde(rename = "editorExtension")]
+    #[serde(rename(serialize = "editorExtension"))]
     pub editor_extension: bool,
 
     /// The pack can use HTML files to create custom UI, as well as use

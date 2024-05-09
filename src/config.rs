@@ -6,7 +6,7 @@ use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
     localization::{Language, LanguageGroups, OptionallyLocalized},
-    manifest::BaseGameVersion,
+    manifest::{BaseGameVersion, Capabilities},
 };
 use serde::Deserialize;
 
@@ -71,6 +71,10 @@ pub struct Config {
     #[serde(rename = "WT")]
     #[serde(default)]
     pub wt: WT,
+
+    /// Section containing optional features that can be enabled in Minecraft.
+    #[serde(default)]
+    pub capabilities: Option<Capabilities>,
 }
 
 impl Config {
