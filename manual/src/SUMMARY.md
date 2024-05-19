@@ -4,7 +4,7 @@
 
 # Getting Started
 
-- [Installation]()
+- [Installation](./installation.md)
 - [Hello World]()
 - [Configuration](./configuration.md)
 
