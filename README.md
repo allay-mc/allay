@@ -37,7 +37,7 @@ Feature               | Flag                | Description                     | 
 ----------------------|---------------------|---------------------------------|-------------------
 **share command**     | `share`             | Shares add-ons over HTTP        | yes
 **export command**    | `export`            | Exports add-ons to Minecraft    | yes
-**git**               | `git`               | Handles `git`                   | yes
+**git**               | `git`               | Handles `git`                   | no
 **shell completions** | `shell-completions` | Generates shell completions     | yes
 **schema command**    | `config-schema`     | JSON schema for config file     | no
 **watch command**     | `watch`             | Rebuild add-ons on file changes | yes

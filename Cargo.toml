@@ -48,7 +48,7 @@ clap_complete = { version = "4.5.2", optional = true }
 
 [features]
 # See README.md for descriptions about the features.
-default = ["export", "git", "manual", "share", "shell-completions", "watch"]
+default = ["export", "manual", "share", "shell-completions", "watch"]
 config-schema = ["schemars"]
 export = ["open"]
 git = ["git2"]
