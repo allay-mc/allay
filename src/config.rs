@@ -18,11 +18,8 @@ pub type Filter = String;
 
 /// The overall configuration for an Allay project.
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Config {
     /// Optional reference to JSON schema.
     #[serde(rename = "$schema")]
@@ -84,12 +81,9 @@ impl Config {
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Build {
     /// Directories to watch besides from `src` when using the `watch` command.
     #[serde(default)]
@@ -98,12 +92,9 @@ pub struct Build {
 
 /// Metadata of the Allay project.
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Project {
     /// The name of the project.
     ///
@@ -143,12 +134,9 @@ pub struct Project {
 }
 
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Localization {
     /// The primary language used to the add-ons.
     ///
@@ -161,11 +149,8 @@ pub struct Localization {
 
 /// A plugin that transforms the pack.
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Plugin {
     /// An optional name used to identify the plugin.
     pub name: Option<String>,
@@ -219,12 +204,9 @@ fn any(_: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
 
 /// Arguements passed to the executable.
 #[derive(Clone, Debug, Deserialize)]
-#[serde(rename_all = "snake_case", deny_unknown_fields)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
+#[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub enum PluginArgs {
     /// Passes data as a JSON object to the executable.
     ///
@@ -262,12 +244,9 @@ impl Default for PluginArgs {
 }
 
 #[derive(Copy, Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub enum BehaviorPackType {
     #[default]
     Data,
@@ -275,11 +254,8 @@ pub enum BehaviorPackType {
 }
 
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct Dependency {
     #[serde(flatten)]
     pub id: Identifier,
@@ -289,12 +265,9 @@ pub struct Dependency {
 }
 
 #[derive(Clone, Debug, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub enum Identifier {
     /// The name of the dependency to use (e.g. `@minecraft/server`).
     ModuleName(String),
@@ -304,12 +277,9 @@ pub enum Identifier {
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct BP {
     /// Whether to use the `manifest.json` file in the `BP` directory instead of generating one.
     #[serde(default)]
@@ -341,12 +311,9 @@ pub struct BP {
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct RP {
     /// Whether to use the `manifest.json` file in the `RP` directory instead of generating one.
     #[serde(default)]
@@ -373,12 +340,9 @@ pub struct RP {
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct SP {
     /// Whether to use the `manifest.json` file in the `SP` directory instead of generating one.
     #[serde(default)]
@@ -405,12 +369,9 @@ pub struct SP {
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-#[cfg_attr(
-    feature = "config-schema",
-    derive(schemars::JsonSchema),
-    schemars(deny_unknown_fields)
-)]
+#[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "config-schema", derive(schemars::JsonSchema))]
 pub struct WT {
     /// Whether to use the `manifest.json` file in the `WT` directory instead of generating one.
     #[serde(default)]
