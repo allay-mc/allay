@@ -15,6 +15,8 @@ select the archive that matches your platform. Extract it and put the
 executable to some path of your choise (usually something like `/usr/local/bin`
 on Unix and `C:\Program Files` on Windows).
 
+## Via Cargo
+
 If your platform is not supported or you just prefer to build Allay yourself,
 then you can do so by following the instructions below.
 
