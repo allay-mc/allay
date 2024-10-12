@@ -22,10 +22,11 @@ the paths in the temporary directory ("prebuilt directory").
 
 - `ALLAY_DEBUG` --- Whether the project is built in debug mode.
 - `ALLAY_PREBUILD` --- The root of the prebuilt directory.
-- `ALLAY_PROJECT_ROOT` --- The root of the project root (the directory with the `allay.toml` file).
+- `ALLAY_PROJECT_ROOT` --- The path to the root of the project (the directory with the `allay.toml` file).
 - `ALLAY_VERSION` --- The version of Allay that is beeing used.
 
-On top of that users may define extra environment variables in the [`[env]`](./configuration.md#env) section of the configuration file.
+On top of that users may define extra environment variables in the
+[`[env]`](./configuration.md#the-env-section) section of the configuration file.
 
 
 ### Configuration
@@ -77,7 +78,7 @@ To tell Ally to run this plugin, we need to mention it in the `allay.toml` file.
 # ...
 
 [[plugin]]
-run = "scripts/info.py"
+run = "plugins/info.py"
 with = "python3"
 ```
 
@@ -95,7 +96,7 @@ adding the `when` field:
 # ...
 
 [[plugin]]
-run = "scripts/info.py"
+run = "plugins/info.py"
 with = "python3"
 when = 'env("ALLAY_DEBUG") == "1"'
 ```
