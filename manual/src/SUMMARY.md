@@ -12,6 +12,7 @@
 
 - [Plugins](./plugins.md)
 - [Managing UUIDs]()
+- [Using TypeScript](./using-typescript.md)
 - [Publishing your Work]()
 
 # Ports
