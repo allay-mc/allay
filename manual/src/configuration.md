@@ -29,8 +29,8 @@ add-on whereas some of them control the build process.
   - [`threaded`](#the-threaded-field)
   - [`panic`](#the-panic-field)
 - [`[BP]`, `[RP]`, `[SP]` and `[WT]`](#the-bp-rp-sp-and-wt-sections)
-  - [`custom_manifest`](#the-custommanifest-field)
-  - [`custom_pack_icon`](#the-custompackicon-field)
+  - [`custom-manifest`](#the-custom-manifest-field)
+  - [`custom-pack-icon`](#the-custom-pack-icon-field)
   - [`name` and `description`](#the-name-and-description-field)
   - [`dependencies`](#the-dependencies-field)
 
@@ -190,12 +190,12 @@ The `[BP]` section also allows specifying the type of behavior pack by setting `
 The `[WT]` section also allows specifying `allow_random_seed` and `base_game_version`.
 
 
-### The `custom_manifest` field
+### The `custom-manifest` field
 
 Whether to use the `manifest.json` file in the pack's directory instead of generating one.
 
 
-### The `custom_pack_icon` field
+### The `custom-pack-icon` field
 
 Whether to use the `pack_icon.png` file in the pack's directory instead of generating one. This field does
 not exist for world template configuration.
