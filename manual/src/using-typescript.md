@@ -35,17 +35,17 @@ We also create a `tsconfig.json` required to transpile our TypeScript files corr
 {
   "compilerOptions": {
     "rootDir": "./src",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "target": "ES2016",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "target": "es6",
     "sourceMap": false
   },
   "include": ["src/**/*"]
 }
 ```
+
+This is the bare minimum TypeScript configuration required. You can further configure the file
+to your preferences.
 
 We won't use the [npm] CLI directly to run the `build` script like you usually would do. Instead,
 we invoke the `build` script by using an Allay plugin:
