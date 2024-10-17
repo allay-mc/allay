@@ -5,6 +5,10 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ## [unreleased][]
 
+### Added
+
+- Add support for `sync`ing on Linux.
+
 ### Fixed
 
 - `.gitignore` template now has the correct format
