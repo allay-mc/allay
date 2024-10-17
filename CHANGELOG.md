@@ -5,6 +5,10 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 
 ## [unreleased][]
 
+### Fixed
+
+- `.gitignore` template now has the correct format
+
 
 ## [0.1.0][] - 2023-05-20
 
