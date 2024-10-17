@@ -35,7 +35,18 @@ mod location {
         if path.exists() {
             Some(path)
         } else {
-            log::error!("{}", diagnostic::Notification::ComMojangWindows);
+            log::error!("{}", diagnostic::Notification::ComMojangNotFoundWindows);
+            None
+        }
+    }
+
+    fn linux() -> Option<PathBuf> {
+        let path = PathBuf::from(env::var_os("HOME").expect("HOME environment variable not set"))
+            .join(".local/share/mcpelauncher/games/com.mojang");
+        if path.exists() {
+            Some(path)
+        } else {
+            log::error!("{}", diagnostic::Notification::ComMojangNotFoundLinux);
             None
         }
     }
@@ -48,6 +59,8 @@ mod location {
             None
         } else if cfg!(windows) {
             windows()
+        } else if cfg!(linux) {
+            linux()
         } else {
             log::error!("Your OS is not supported for syncing");
             None

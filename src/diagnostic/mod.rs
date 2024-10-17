@@ -26,7 +26,8 @@ pub enum Notification {
     RedundantPackIcon,
     EmptyAddOn,
     ComMojangNotFoundAndroid,
-    ComMojangWindows,
+    ComMojangNotFoundWindows,
+    ComMojangNotFoundLinux,
 }
 
 impl Diagnostic for Notification {
@@ -39,9 +40,9 @@ impl Diagnostic for Notification {
                 "Found `pack_icon.png` but ignoring it as `custom-pack-icon` is not set to `true`"
             }
             Self::EmptyAddOn => "Add-On contains no packs",
-            Self::ComMojangNotFoundAndroid | Self::ComMojangWindows => {
-                "The `com.mojang` folder cannot be found"
-            }
+            Self::ComMojangNotFoundAndroid
+            | Self::ComMojangNotFoundWindows
+            | Self::ComMojangNotFoundLinux => "The `com.mojang` folder cannot be found",
         }
     }
 
@@ -51,7 +52,8 @@ impl Diagnostic for Notification {
             Self::RedundantPackIcon => Some(include_str!("redundant_pack_icon.md")),
             Self::EmptyAddOn => None,
             Self::ComMojangNotFoundAndroid => Some(include_str!("com_mojang_not_found_android.md")),
-            Self::ComMojangWindows => None,
+            Self::ComMojangNotFoundWindows => None,
+            Self::ComMojangNotFoundLinux => None,
         }
     }
 
@@ -61,7 +63,8 @@ impl Diagnostic for Notification {
             Self::RedundantPackIcon => 2,
             Self::EmptyAddOn => 3,
             Self::ComMojangNotFoundAndroid => 4,
-            Self::ComMojangWindows => 5,
+            Self::ComMojangNotFoundWindows => 5,
+            Self::ComMojangNotFoundLinux => 6,
         }
     }
 
@@ -82,7 +85,8 @@ impl Diagnostic for Notification {
             2 => Some(Self::RedundantPackIcon),
             3 => Some(Self::EmptyAddOn),
             4 => Some(Self::ComMojangNotFoundAndroid),
-            5 => Some(Self::ComMojangWindows),
+            5 => Some(Self::ComMojangNotFoundWindows),
+            6 => Some(Self::ComMojangNotFoundLinux),
             _ => None,
         }
     }
@@ -93,7 +97,8 @@ impl Diagnostic for Notification {
             Self::RedundantPackIcon => Kind::Warning,
             Self::EmptyAddOn => Kind::Warning,
             Self::ComMojangNotFoundAndroid => Kind::Error,
-            Self::ComMojangWindows => Kind::Error,
+            Self::ComMojangNotFoundWindows => Kind::Error,
+            Self::ComMojangNotFoundLinux => Kind::Error,
         }
     }
 }
