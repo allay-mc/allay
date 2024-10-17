@@ -172,15 +172,90 @@ extra-watch-dirs = ["plugins"]
 
 ### The `name` field { #the-plugin-name-field }
 
+A plugin can optionally be granted a name which is useful as you can more easily identify what output
+came from which plugin during the build process.
+
+```toml
+[[plugin]]
+name = "Greeter"
+run = "plugins/greet.rb"
+with = "ruby"
+```
+
+
 ### The `run` and `with` fields
+
+The `run` and `with` fields are used to specify the program used to run the plugin.
+
+```toml
+[[plugin]]
+run = "first-argument"
+with = "program"
+args = ["second-argument", "third-argument"]
+```
+
+Alternatively, you can use the following form:
+
+```toml
+[[plugin]]
+run = "program"
+args = ["first-argument", "second-argument", "third-argument"]
+```
+
+Both snippets effectively do the same and if you use the combination of `with` + `run` or just `run`
+pretty much depends on your taste and the program you are invoking. Let's look at an example which
+uses a Dart program as a plugin.
+
+In the console you would write:
+
+```console
+dart run plugins/hello.dart
+```
+
+To use it as a plugin, we add it to the configuration file:
+
+```toml
+[[plugin]]
+run = "run"
+with = "dart"
+args = ["plugins/hello.dart"]
+```
+
+But we can use the alternative which would look better in this case:
+
+```toml
+run = "dart"
+args = ["run", "plugins/hello.dart"]
+```
+
 
 ### The `args` and `options` fields
 
+The `args` array passes each value to the program as an argument whereas the value used for `options`
+is serialized into JSON and passed as a single argument to the plugin.
+
+
 ### The `when` field
+
+```admonish title="See Also"
+[Filters](./plugins.md#filters)
+```
+
 
 ### The `threaded` field
 
+```admonish
+This field is unused but might be used in the future.
+```
+
+
 ### The `panic` field
+
+
+```admonish
+This field is unused but might be used in the future.
+```
+
 
 ## The `[BP]`, `[RP]`, `[SP]` and `[WT]` sections
 
