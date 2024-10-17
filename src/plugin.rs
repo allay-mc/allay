@@ -38,7 +38,7 @@ impl From<&config::Plugin> for ExecutablePlugin {
                 if value.with.is_some() {
                     args.push(value.run.clone());
                 };
-                match &value.args {
+                match value.args.clone().unwrap_or_default() {
                     config::PluginArgs::Options(options) => {
                         args.push(
                             serde_json::to_string(&options)

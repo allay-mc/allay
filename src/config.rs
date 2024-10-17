@@ -179,7 +179,7 @@ pub struct Plugin {
 
     /// Arguments passed to the executable.
     #[serde(default, flatten)]
-    pub args: PluginArgs,
+    pub args: Option<PluginArgs>,
 
     /// A filter which decides whether the plugin should be run.
     ///
