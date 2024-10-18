@@ -300,7 +300,7 @@ impl Project {
                     Ok(res) => log::info!("[{}] {}", name, String::from_utf8_lossy(res.as_slice())),
                     Err(e) => {
                         log::error!("Failed to run plugin {}: {}", name, e);
-                        if plugin.panic {
+                        if plugin.panic() {
                             return Err(e);
                         }
                     }
