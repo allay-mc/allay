@@ -52,14 +52,14 @@ mod location {
     }
 
     pub fn get() -> Option<PathBuf> {
-        if cfg!(android) {
+        if cfg!(target_os = "android") {
             android_termux()
-        } else if cfg!(ios) {
+        } else if cfg!(target_os = "ios") {
             log::error!("iOS devices are not supported for syncing yet");
             None
-        } else if cfg!(windows) {
+        } else if cfg!(target_os = "windows") {
             windows()
-        } else if cfg!(linux) {
+        } else if cfg!(target_os = "linux") {
             linux()
         } else {
             log::error!("Your OS is not supported for syncing");
