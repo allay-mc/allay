@@ -8,6 +8,10 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Add support for `sync`ing on Linux.
+- Better localization system: Now, not only `pack.name` and `pack.description` will be
+  adapted to other languages, but also every other translation you add in any language
+  file.
+
 
 ### Fixed
 
