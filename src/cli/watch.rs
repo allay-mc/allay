@@ -97,7 +97,7 @@ where
         // ignored by gitignore. So we handle this case by including such files into the watched paths list.
         let any_external_paths = paths
             .iter()
-            .filter(|p| !p.starts_with(&paths::root()))
+            .filter(|p| !p.starts_with(paths::root()))
             .cloned();
         let mut paths = remove_ignored_files(&paths::root(), &paths[..]);
         paths.extend(any_external_paths);

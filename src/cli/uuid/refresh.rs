@@ -58,11 +58,11 @@ fn update(uuids: &mut Uuids, packs: Vec<Pack>, kinds: Vec<String>, uuid: Option<
     .into_iter()
     .filter(|i| packs.contains(&i.1))
     {
-        if kinds.contains(&&"header".to_string()) {
+        if kinds.contains(&"header".to_string()) {
             data.0.update_header(uuid.copied());
             log::info!("Refreshed header UUID for {}", data.1);
         }
-        if kinds.contains(&&"module".to_string()) {
+        if kinds.contains(&"module".to_string()) {
             data.0.update_module(uuid.copied());
             log::info!("Refreshed module UUID for {}", data.1);
         }

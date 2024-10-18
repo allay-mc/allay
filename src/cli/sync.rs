@@ -8,9 +8,9 @@ use std::fs;
 use std::str::FromStr;
 use std::{env, path::PathBuf, process::ExitCode};
 
-const DEV_BP: &'static str = "development_behavior_packs";
-const DEV_RP: &'static str = "development_resource_packs";
-const DEV_SP: &'static str = "development_skin_packs";
+const DEV_BP: &str = "development_behavior_packs";
+const DEV_RP: &str = "development_resource_packs";
+const DEV_SP: &str = "development_skin_packs";
 
 mod location {
     use crate::diagnostic;

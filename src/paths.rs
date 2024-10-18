@@ -2,7 +2,7 @@ use std::env::current_dir;
 use std::path::PathBuf;
 
 /// The name of the file which contains the ID of the Allay project.
-pub const FINGERPRINT: &'static str = ".allay-fingerprint";
+pub const FINGERPRINT: &str = ".allay-fingerprint";
 
 /// Returns the path of the project root or [`None`] if an `allay.toml` file cannot be found.
 pub fn try_root() -> Option<PathBuf> {

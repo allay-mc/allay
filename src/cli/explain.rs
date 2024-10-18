@@ -12,7 +12,7 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
     let id: &String = matches.get_one("id").unwrap();
     let code: u8 = id
         .parse()
-        .expect(format!("Code is invalid (must be 0-255)",).as_str());
+        .unwrap_or_else(|_| { panic!("{}", "Code is invalid (must be 0-255)".to_string()) });
     let notif = match diagnostic::Notification::from_code(code) {
         Some(n) => n,
         None => {

@@ -14,8 +14,8 @@ pub fn cmd() -> Command {
 pub fn run(matches: &ArgMatches) -> ExitCode {
     let debug_mode: Option<bool> = matches
         .get_flag("build-debug")
-        .then(|| true)
-        .or(matches.get_flag("build-release").then(|| false));
+        .then_some(true)
+        .or(matches.get_flag("build-release").then_some(false));
     let now = Instant::now();
     let mut project = match Project::current() {
         Ok(p) => p,

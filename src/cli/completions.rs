@@ -1,4 +1,4 @@
-use clap::{Arg, ArgAction, ArgMatches, Command};
+use clap::{Arg, ArgMatches, Command};
 use clap_complete::Shell;
 use std::{io, process::ExitCode};
 

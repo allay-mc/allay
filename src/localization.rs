@@ -8,7 +8,7 @@ use std::io::Write;
 use std::path::PathBuf;
 
 /// File extension for Minecraft language files.
-pub const LANGUAGE_FILE_EXTENSION: &'static str = "lang";
+pub const LANGUAGE_FILE_EXTENSION: &str = "lang";
 
 /// A value mapped to languages.
 pub type Localized<T> = HashMap<Language, T>;
@@ -71,12 +71,7 @@ impl Default for LanguageGroups {
 impl LanguageGroups {
     /// Returns the language group which contains `language`.
     pub fn group_of(&self, language: &Language) -> Option<&LanguageGroup> {
-        for group in &self.0 {
-            if group.contains(language) {
-                return Some(group);
-            }
-        }
-        None
+        self.0.iter().find(|&group| group.contains(language))
     }
 
     /// Adds a language to it's own group if it is not present in any group yet.
@@ -158,7 +153,7 @@ impl LanguageGroups {
 
         // Step 2
         for lang in given {
-            match self.group_of(&lang) {
+            match self.group_of(lang) {
                 Some(group) if self.group_of(target).is_some_and(|g| g == group) => {
                     return Some(lang);
                 }
@@ -173,7 +168,7 @@ impl LanguageGroups {
 
         // Step 4
         for lang in given {
-            match self.group_of(&lang) {
+            match self.group_of(lang) {
                 Some(group) if self.group_of(fallback).is_some_and(|g| g == group) => {
                     return Some(lang);
                 }
@@ -200,7 +195,7 @@ pub fn generate_language_json(dir: &PathBuf) -> Result<(), Box<dyn std::error::E
                 .extension()
                 .is_some_and(|ext| ext == LANGUAGE_FILE_EXTENSION)
         })
-        .map(|f| match f.path().file_stem() {
+        .filter_map(|f| match f.path().file_stem() {
             Some(stem) => match stem.to_str() {
                 Some(stem) => {
                     if Language::from_file_id(stem).is_some() {
@@ -222,7 +217,6 @@ pub fn generate_language_json(dir: &PathBuf) -> Result<(), Box<dyn std::error::E
                 None
             }
         })
-        .filter_map(|x| x)
         .collect();
     let json: serde_json::Value = serde_json::from_value(langs.into())?;
     let path = dir.join("languages.json");
@@ -248,8 +242,8 @@ pub fn update_language_files(
     for (key, target) in &data {
         let mut covered: Vec<&Language> = Vec::new();
         for (lang, translation) in target {
-            append_language_file(dir, &lang, &key, &translation)?;
-            covered.push(&lang);
+            append_language_file(dir, lang, key, translation)?;
+            covered.push(lang);
         }
 
         // cover all remaining languages with their fallback if present
@@ -257,14 +251,9 @@ pub fn update_language_files(
         for remaining in remaining_languages {
             if let Some(lang_with_translation) = groups.best_language(remaining, &covered, fallback)
             {
-                let translation = target.get(lang_with_translation).expect(
-                    format!(
-                        "{} should provide a translation for {}",
-                        lang_with_translation, key
-                    )
-                    .as_str(),
-                );
-                append_language_file(dir, remaining, &key, &translation)?;
+                let translation = target.get(lang_with_translation).unwrap_or_else(|| panic!("{} should provide a translation for {}",
+                        lang_with_translation, key));
+                append_language_file(dir, remaining, key, translation)?;
             } else {
                 // TODO: this is probably unreachable as `name` and `description` are always at least set
                 //       to some language
@@ -568,8 +557,8 @@ impl Language {
             L::Other(id, _name) => {
                 let pair = id
                     .split_once('-')
-                    .expect(format!("language has invalid id: {}", id).as_str());
-                vec![pair.0, "_", pair.1.to_uppercase().as_str()].join("")
+                    .unwrap_or_else(|| panic!("language has invalid id: {}", id));
+                [pair.0, "_", pair.1.to_uppercase().as_str()].join("")
             }
         }
     }

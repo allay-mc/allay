@@ -75,15 +75,15 @@ pub struct Uuids {
     pub wt: Data,
 }
 
-impl Into<Table> for Uuids {
-    fn into(self) -> Table {
+impl From<Uuids> for Table {
+    fn from(val: Uuids) -> Self {
         let mut table = Table::new();
         table.add_row(row![b => "", "Header", "Module", "Dependencies"]);
         for (name, pack) in [
-            ("BP", self.bp),
-            ("RP", self.rp),
-            ("SP", self.sp),
-            ("WT", self.wt),
+            ("BP", val.bp),
+            ("RP", val.rp),
+            ("SP", val.sp),
+            ("WT", val.wt),
         ] {
             table.add_row(row![
                 name,

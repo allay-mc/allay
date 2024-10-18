@@ -8,7 +8,7 @@ pub fn evaluate(source: &str) -> Result<bool, Box<rhai::EvalAltResult>> {
         .register_fn("dll_prefix", || DLL_PREFIX)
         .register_fn("dll_suffix", || DLL_SUFFIX)
         .register_fn("env", |key: rhai::ImmutableString| {
-            env::var(key.as_str()).unwrap_or(String::new())
+            env::var(key.as_str()).unwrap_or_default()
         })
         .register_fn("env_present", |key: rhai::ImmutableString| {
             env::var(key.as_str()).is_err_and(|e| e == env::VarError::NotPresent)

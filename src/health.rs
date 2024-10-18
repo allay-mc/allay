@@ -54,7 +54,7 @@ impl Health {
         let uuids = self.root.join(paths::uuids());
         let valid_file_format: bool = (|| {
             toml::from_str::<toml::Value>(match fs::read_to_string(&uuids) {
-                Ok(ref data) => &data,
+                Ok(ref data) => data,
                 Err(e) => {
                     log::error!("Failed to read UUID file: {}", e);
                     return false;
@@ -95,7 +95,7 @@ impl Health {
         match data {
             Err(e) => {
                 log::error!("Invalid TOML: {}", e);
-                return false;
+                false
             }
             Ok(mut data) => {
                 let mut modified = false;
