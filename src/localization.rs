@@ -2,8 +2,11 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::fmt;
 use std::fs;
+use std::fs::File;
 use std::fs::OpenOptions;
 use std::hash::Hash;
+use std::io;
+use std::io::BufRead;
 use std::io::Write;
 use std::path::PathBuf;
 
@@ -251,8 +254,12 @@ pub fn update_language_files(
         for remaining in remaining_languages {
             if let Some(lang_with_translation) = groups.best_language(remaining, &covered, fallback)
             {
-                let translation = target.get(lang_with_translation).unwrap_or_else(|| panic!("{} should provide a translation for {}",
-                        lang_with_translation, key));
+                let translation = target.get(lang_with_translation).unwrap_or_else(|| {
+                    panic!(
+                        "{} should provide a translation for {}",
+                        lang_with_translation, key
+                    )
+                });
                 append_language_file(dir, remaining, key, translation)?;
             } else {
                 // TODO: this is probably unreachable as `name` and `description` are always at least set
@@ -279,9 +286,93 @@ fn append_language_file(
         .join(lang.file_id())
         .with_extension(LANGUAGE_FILE_EXTENSION);
     log::debug!("Appending {}", path.display());
-    let mut file = OpenOptions::new().append(true).create(true).open(path)?;
-    writeln!(file, "{key}={translation}\t## @generated")?;
+    let mut file = OpenOptions::new()
+        .append(true)
+        .create(true)
+        .read(true)
+        .open(path)?;
+    log::debug!("file: {:?}", file);
+    if file_contains_key(&file, key) {
+        log::warn!("{lang} already contains key {key}");
+    } else {
+        writeln!(file, "{key}={translation}\t## @generated")?;
+    }
     Ok(())
+}
+
+/// Returns `true` when the language file references the key `key`.
+fn file_contains_key(file: &File, key: &str) -> bool {
+    let lines = io::BufReader::new(file).lines();
+    for line in lines.flatten() {
+        log::debug!("parsing translation line: {}", line);
+        if let Some((present_key, _)) = line.split_once("=") {
+            if present_key == key {
+                return true;
+            }
+        }
+    }
+    false
+}
+
+pub fn collect_user_translations(
+    dir: &PathBuf,
+) -> Result<HashMap<String, Localized<String>>, Box<dyn std::error::Error>> {
+    let mut translations: HashMap<String, Localized<String>> = HashMap::new();
+    for entry in dir.read_dir()? {
+        let path = entry?.path();
+        if path.is_dir() {
+            continue;
+        }
+        if !path
+            .extension()
+            .is_some_and(|ext| ext == LANGUAGE_FILE_EXTENSION)
+        {
+            continue;
+        }
+
+        let stem = match path.file_stem() {
+            Some(stem) => match stem.to_str() {
+                Some(stem) => stem,
+                None => {
+                    log::error!("Invalid language file id {:?} ({})", stem, path.display());
+                    continue;
+                }
+            },
+            None => {
+                continue;
+            }
+        };
+        let language = match Language::from_file_id(stem) {
+            Some(lang) => lang,
+            None => {
+                log::error!("Invalid language file id {} ({})", stem, path.display());
+                continue;
+            }
+        };
+
+        let file = OpenOptions::new().read(true).open(path)?;
+        let lines = io::BufReader::new(file).lines();
+        for line in lines.flatten() {
+            if let Some((present_key, rest_of_line)) = line.split_once("=") {
+                let translation = match rest_of_line.split_once("\t##") {
+                    Some((translation, _)) => translation,
+                    None => rest_of_line,
+                };
+                let language = language.clone();
+                match translations.get_mut(present_key) {
+                    Some(value) => {
+                        value.insert(language, translation.to_string());
+                    }
+                    None => {
+                        let mut map = HashMap::new();
+                        map.insert(language, translation.to_string());
+                        translations.insert(present_key.to_string(), map);
+                    }
+                };
+            }
+        }
+    }
+    Ok(translations)
 }
 
 mod by_id {

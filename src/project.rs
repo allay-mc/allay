@@ -1,6 +1,7 @@
 use crate::health::has_content;
 use crate::localization::{
-    generate_language_json, update_language_files, Localized, OptionallyLocalized,
+    collect_user_translations, generate_language_json, update_language_files, Localized,
+    OptionallyLocalized,
 };
 use crate::plugin::{ExecutablePlugin, Plugin};
 use crate::Config;
@@ -230,17 +231,29 @@ impl Project {
                         res?;
                     };
                 };
+
+                match collect_user_translations(&texts_dir) {
+                    Ok(user_translations) => {
+                        for (key, translation) in user_translations {
+                            translations.insert(key, translation);
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error while collecting user-defined translations: {}", e)
+                    }
+                }
+
                 match update_language_files(
                     &texts_dir,
                     &groups,
                     &self.config.localization.primary_language,
                     translations,
                 ) {
-                    Ok(_) => {}
+                    Ok(_) => log::info!("Updates language files"),
                     Err(e) => log::error!("Error while appending language files: {}", e),
                 };
                 match generate_language_json(&texts_dir) {
-                    Ok(_) => {}
+                    Ok(_) => log::info!("Generated languages.json"),
                     Err(e) => log::error!("Error while generating languages.json: {}", e),
                 };
             };
