@@ -293,7 +293,7 @@ fn append_language_file(
         .open(path)?;
     log::debug!("file: {:?}", file);
     if file_contains_key(&file, key) {
-        log::warn!("{lang} already contains key {key}");
+        log::debug!("{lang} already contains key {key}");
     } else {
         writeln!(file, "{key}={translation}\t## @generated")?;
     }
