@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::fmt;
 use std::fs;
 use std::fs::OpenOptions;
+use std::hash::Hash;
 use std::io::Write;
 use std::path::PathBuf;
 
@@ -310,7 +311,7 @@ mod by_id {
 // FIXME: always serialized to Other (which is fine but makes all other options redundant and may be an issue
 //        in the future as only the vanilla languages have a name which is nicer for printing).
 /// Languages that can be used for translation.
-#[derive(Clone, Debug, Default, Eq, Hash, Deserialize)]
+#[derive(Clone, Debug, Default, Eq, Deserialize)]
 #[non_exhaustive]
 #[serde(untagged)]
 #[cfg_attr(
@@ -571,6 +572,12 @@ impl Language {
                 vec![pair.0, "_", pair.1.to_uppercase().as_str()].join("")
             }
         }
+    }
+}
+
+impl Hash for Language {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.file_id().hash(state);
     }
 }
 
