@@ -16,7 +16,8 @@ pub fn cmd() -> Command {
             Arg::new("init-git")
                 .long("no-git")
                 .help("Prevents creation of a git repository")
-                .action(ArgAction::SetFalse),
+                .action(ArgAction::SetFalse)
+                .hide(!cfg!(feature = "git")),
         )
         .arg(
             Arg::new("gitignore")
@@ -37,6 +38,7 @@ pub fn run(matches: &ArgMatches) -> ExitCode {
     let path: &PathBuf = matches.get_one("dir").unwrap();
     let force: bool = matches.get_flag("force");
     let with_gitignore: bool = matches.get_flag("gitignore");
+    #[cfg(feature = "git")]
     let init_git: bool = matches.get_flag("init-git");
 
     Project::new(
