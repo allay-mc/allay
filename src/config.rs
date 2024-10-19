@@ -188,7 +188,7 @@ pub struct Plugin {
     /// ```toml
     /// [[plugin]]
     /// run = "hello"
-    /// when = "any(os = linux, os = android)"
+    /// when = 'env("ALLAY_DEBUG") == "1"'
     /// ```
     pub when: Option<Filter>,
 
