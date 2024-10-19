@@ -16,6 +16,7 @@ Allay adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - `.gitignore` template now has the correct format
+- Both stdout and stderr of plugins will now be printed to the console
 
 
 ## [0.1.0][] - 2023-05-20
