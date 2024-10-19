@@ -1,12 +1,12 @@
 use crate::config;
 use std::ffi::OsStr;
-use std::process::Command;
+use std::process::{Command, Output};
 
 pub trait Plugin {
     /// The optional name of the plugin.
     fn name(&self) -> Option<String>;
 
-    fn run<I, K, V>(&self, env_vars: I) -> Result<Vec<u8>, Box<dyn std::error::Error>>
+    fn run<I, K, V>(&self, env_vars: I) -> Result<(String, Output), Box<dyn std::error::Error>>
     where
         I: IntoIterator<Item = (K, V)>,
         K: AsRef<OsStr>,
@@ -59,7 +59,8 @@ impl Plugin for ExecutablePlugin {
         self.name.clone()
     }
 
-    fn run<I, K, V>(&self, env_vars: I) -> Result<Vec<u8>, Box<dyn std::error::Error>>
+    #[must_use]
+    fn run<I, K, V>(&self, env_vars: I) -> Result<(String, Output), Box<dyn std::error::Error>>
     where
         I: IntoIterator<Item = (K, V)>,
         K: AsRef<OsStr>,
@@ -69,12 +70,7 @@ impl Plugin for ExecutablePlugin {
         let cmd = cmd.args(&self.args).envs(env_vars);
         let output = cmd.output()?;
         let name = self.name().unwrap_or("<unnamed>".to_string());
-        if output.status.success() {
-            log::info!("Successfully run plugin {}", &name);
-        } else {
-            log::error!("Plugin {} did not run successful", &name);
-        }
-        Ok(output.stdout)
+        Ok((name, output))
     }
 
     fn panic(&self) -> bool {

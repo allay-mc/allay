@@ -310,7 +310,21 @@ impl Project {
                 );
                 let result = plugin.run(envs);
                 match result {
-                    Ok(res) => log::info!("[{}] {}", name, String::from_utf8_lossy(res.as_slice())),
+                    Ok((name, output)) => {
+                        let stdout = String::from_utf8_lossy(output.stdout.as_slice());
+                        let stderr = String::from_utf8_lossy(output.stderr.as_slice());
+                        for line in stdout.lines() {
+                            log::info!("[stdout of {}] {}", name, line);
+                        }
+                        for line in stderr.lines() {
+                            log::error!("[stderr of {}] {}", name, line);
+                        }
+                        if output.status.success() {
+                            log::info!("Plugin {} ran successfully", name);
+                        } else {
+                            log::error!("Plugin {} ran unsuccessfully", name);
+                        }
+                    }
                     Err(e) => {
                         log::error!("Failed to run plugin {}: {}", name, e);
                         if plugin.panic() {
