@@ -137,7 +137,7 @@ impl Health {
                     if data.rp.module.is_none() {
                         if self.fix {
                             log::info!("Add missing RP module UUID");
-                            data.bp.update_module(None);
+                            data.rp.update_module(None);
                             modified = true;
                         } else {
                             log::error!("RP module UUID is missing; try `allay health --fix`");
