@@ -1,0 +1,65 @@
+{# using tera #}
+{% raw %}
+name: Deployment
+
+on:
+  push:
+    tags:
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch release version from tag
+        if: env.VERSION == ''
+        run: |
+          echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: Assert tag version and config version match
+        shell: bash
+        run: |
+          if ! grep -q "version = \"${VERSION#v}\"" allay.toml; then
+            echo "version does not match allay.toml" >&2
+            exit 1
+          fi
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create $VERSION --draft --verify-tag --title $VERSION
+    outputs:
+      version: ${{ env.VERSION }}
+
+  build:
+    needs:
+      - create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
+          rustup update
+      - name: Install Allay
+        run: |
+{% endraw %}
+          cargo install allay@{{ allay_version }}
+{% raw %}
+      - name: Build
+        run: |
+          allay build --release
+      - name: Create sha256 sum
+        run: |
+          shasum -a 256 .allay/build/build-release.mcaddon > build-release.sha256
+      - name: Upload
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          version="${{ needs.create-release.outputs.version }}"
+          gh release upload "$version" .allay/build/build-release build-release.sha256
+{% endraw %}
+

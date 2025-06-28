@@ -1,0 +1,27 @@
+html.polar-night .mdbook-alerts-note,
+html.snow-storm .mdbook-alerts-note {
+  --mdbook-alerts-color: var(--nord9) !important;
+}
+
+html.polar-night .mdbook-alerts-tip,
+html.snow-storm .mdbook-alerts-tip {
+  --mdbook-alerts-color: var(--nord14) !important;
+}
+
+html.polar-night .mdbook-alerts-important,
+html.snow-storm .mdbook-alerts-important {
+  --mdbook-alerts-color: var(--nord15) !important;
+}
+
+html.polar-night .mdbook-alerts-warning {
+  --mdbook-alerts-color: var(--nord13) !important;
+}
+
+html.snow-storm .mdbook-alerts-warning {
+  --mdbook-alerts-color: var(--nord12) !important;
+}
+
+html.polar-night .mdbook-alerts-caution,
+html.snow-storm .mdbook-alerts-caution {
+  --mdbook-alerts-color: var(--nord11) !important;
+}

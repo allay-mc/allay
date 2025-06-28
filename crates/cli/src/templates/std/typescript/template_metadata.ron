@@ -1,0 +1,8 @@
+(
+  format_version: "1.0.0",
+  name: "TypeScript",
+  version: "1.0.0",
+  namespace: "std",
+  description: "A template for projects that make use of scripting capabilities.",
+  authors: ["Jonas da Silva"],
+)

@@ -1,0 +1,142 @@
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-note) {
+  border-color: var(--nord10);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-note) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord10) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-note) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord10);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-abstract, .admonish-summary, .admonish-tldr) {
+  border-color: var(--nord9);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-abstract, .admonish-summary, .admonish-tldr) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord9) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-abstract, .admonish-summary, .admonish-tldr) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord9);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-info, .admonish-todo) {
+  border-color: var(--nord8);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-info, .admonish-todo) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord8) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-info, .admonish-todo) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord8);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-tip, .admonish-hint, .admonish-important) {
+  border-color: var(--nord7);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-tip, .admonish-hint, .admonish-important) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord7) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-tip, .admonish-hint, .admonish-important) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord7);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-success, .admonish-check, .admonish-done) {
+  border-color: var(--nord14);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-success, .admonish-check, .admonish-done) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord14) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-success, .admonish-check, .admonish-done) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord14);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-question, .admonish-help, .admonish-faq) {
+  border-color: var(--nord14);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-question, .admonish-help, .admonish-faq) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord14) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-question, .admonish-help, .admonish-faq) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord14);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-warning, .admonish-caution, .admonish-attention) {
+  border-color: var(--nord13);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-warning, .admonish-caution, .admonish-attention) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord13) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-warning, .admonish-caution, .admonish-attention) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord13);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-failure, .admonish-fail, .admonish-missing) {
+  border-color: var(--nord12);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-failure, .admonish-fail, .admonish-missing) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord12) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-failure, .admonish-fail, .admonish-missing) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord12);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-danger, .admonish-errorg) {
+  border-color: var(--nord11);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-danger, .admonish-errorg) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord11) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-danger, .admonish-errorg) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord11);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-bug) {
+  border-color: var(--nord11);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-bug) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord11) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-bug) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord11);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonition):is(.admonish-example) {
+  border-color: var(--nord15);
+}
+html:is(.polar-night, .snow-storm) :is(.admonish-example) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord15) 20%, transparent 80%);
+}
+
+html:is(.polar-night, .snow-storm) :is(.admonish-example) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord15);
+}
+
+html:is(.polar-night) :is(.admonition):is(.admonish-quote, .admonish-cite) {
+  border-color: var(--nord6);
+}
+html:is(.polar-night) :is(.admonish-quote, .admonish-cite) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord6) 20%, transparent 80%);
+}
+
+html:is(.polar-night) :is(.admonish-quote, .admonish-cite) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord6);
+}
+
+html:is(.snow-storm) :is(.admonition):is(.admonish-quote, .admonish-cite) {
+  border-color: var(--nord3);
+}
+html:is(.snow-storm) :is(.admonish-quote, .admonish-cite) > :is(.admonition-title, summary.admonition-title) {
+  background-color: color-mix(in srgb, var(--nord3) 20%, transparent 80%);
+}
+
+html:is(.snow-storm) :is(.admonish-quote, .admonish-cite) > :is(.admonition-title, summary.admonition-title)::before {
+  background-color: var(--nord3);
+}

@@ -6,17 +6,25 @@ src = "src"
 title = "Allay Manual"
 
 [output.html]
-additional-css = ["theme/whichlang.css", "./theme/mdbook-admonish.css"]
+additional-css = [
+  "theme/whichlang.css",
+  "theme/custom.css",
+  "theme/nord.css",
+  "theme/nord-alerts.css",
+  "theme/nord-highlight.css",
+]
 additional-js = ["scripts/whichlang.js"]
-curly-quotes = true
+default-theme = "snow-storm"
+preferred-dark-theme = "polar-night"
+smart-punctuation = true
 git-repository-url = "https://github.com/allay-mc/allay"
 no-section-label = true
 
 [build]
-build-dir = "site"
+build-dir = "../target/manual"
 
-[preprocessor]
+[preprocessor.alerts]
 
-[preprocessor.admonish]
-command = "mdbook-admonish"
-assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]

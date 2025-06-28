@@ -1,0 +1,166 @@
+:root {
+	--mc-core-green-6: #2A641C;
+	--mc-core-green-5: #3C8527;
+	--mc-core-green-4: #52A535;
+	--mc-core-green-3: #6CC349;
+	--mc-core-green-2: #86D562;
+	--mc-core-green-1: #A0E081;
+	--mc-core-grey-6: #262423;
+	--mc-core-grey-5: #3D3938;
+	--mc-core-grey-4: #6B6562;
+	--mc-core-grey-3: #ABA09C;
+	--mc-core-grey-2: #D0C5C0;
+	--mc-core-grey-1: #EDE5E2;
+	--mc-core-rich-black: #000;
+	--mc-core-off-black: #171615;
+	--mc-core-white: #fff;
+	--mc-core-off-white: #FCF5F1;
+	--mc-core-gradient-dark-grey: linear-gradient(180deg, #3D3938 0%, #262423 50%, #171615 100%);
+	--mc-core-gradient-green: linear-gradient(180deg, #6CC349 0%, #52A535 50%, #3C8527 100%);
+	--mc-core-gradient-light-grey: linear-gradient(180deg, #FCF5F1 0%, #EDE5E2 50%, #D0C5C0 100%);
+	--mc-vanilla-green-6: #2A641C;
+	--mc-vanilla-green-5: #3C8527;
+	--mc-vanilla-green-4: #52A535;
+	--mc-vanilla-green-3: #6CC349;
+	--mc-vanilla-green-2: #86D562;
+	--mc-vanilla-green-1: #A0E081;
+	--mc-vanilla-brown-6: #492D1F;
+	--mc-vanilla-brown-5: #66412C;
+	--mc-vanilla-brown-4: #805539;
+	--mc-vanilla-brown-3: #976746;
+	--mc-vanilla-brown-2: #AD7A54;
+	--mc-vanilla-brown-1: #C28E64;
+	--mc-vanilla-blue-6: #002FAE;
+	--mc-vanilla-blue-5: #0040C8;
+	--mc-vanilla-blue-4: #0855DB;
+	--mc-vanilla-blue-3: #1E6EEA;
+	--mc-vanilla-blue-2: #3A87F4;
+	--mc-vanilla-blue-1: #5B9FFB;
+	--mc-vanilla-grey-6: #262423;
+	--mc-vanilla-grey-5: #3D3938;
+	--mc-vanilla-grey-4: #6B6562;
+	--mc-vanilla-grey-3: #ABA09C;
+	--mc-vanilla-grey-2: #D0C5C0;
+	--mc-vanilla-grey-1: #EDE5E2;
+	--mc-vanilla-coldgrey-6: #2C2F3A;
+	--mc-vanilla-coldgrey-5: #3D4250;
+	--mc-vanilla-coldgrey-4: #4D5466;
+	--mc-vanilla-coldgrey-3: #5D647A;
+	--mc-vanilla-coldgrey-2: #6C748C;
+	--mc-vanilla-coldgrey-1: #8089A2;
+	--mc-legends-light-blue-6: #339CD7;
+	--mc-legends-light-blue-5: #39B9EB;
+	--mc-legends-light-blue-4: #4AD5FF;
+	--mc-legends-light-blue-3: #70DFFF;
+	--mc-legends-light-blue-2: #95E8FF;
+	--mc-legends-light-blue-1: #ACF2FF;
+	--mc-legends-dark-blue-6: #001236;
+	--mc-legends-dark-blue-5: #00215C;
+	--mc-legends-dark-blue-4: #00337D;
+	--mc-legends-dark-blue-3: #003BAB;
+	--mc-legends-dark-blue-2: #005DCF;
+	--mc-legends-dark-blue-1: #007FF2;
+	--mc-legends-light-orange-6: #DE7523;
+	--mc-legends-light-orange-5: #E89133;
+	--mc-legends-light-orange-4: #F1AD42;
+	--mc-legends-light-orange-3: #F6C25A;
+	--mc-legends-light-orange-2: #FAD36F;
+	--mc-legends-light-orange-1: #FDDF93;
+	--mc-legends-ultra-dark-blue: #071927;
+	--mc-legends-ultra-dark-orange: #271505;
+	--mc-dungeons-orange-6: #DE5B0D;
+	--mc-dungeons-orange-5: #FF791A;
+	--mc-dungeons-orange-4: #FFA41F;
+	--mc-dungeons-orange-3: #FFC42B;
+	--mc-dungeons-orange-2: #FFD953;
+	--mc-dungeons-orange-1: #FFF27A;
+	--mc-dungeons-red-6: #8F1F0B;
+	--mc-dungeons-red-5: #B42D10;
+	--mc-dungeons-red-4: #DA3A16;
+	--mc-dungeons-red-3: #FF481B;
+	--mc-dungeons-red-2: #FF6D3A;
+	--mc-dungeons-red-1: #FF925B;
+	--mc-dungeons-mulberry-6: #190D19;
+	--mc-dungeons-mulberry-5: #32122A;
+	--mc-dungeons-mulberry-4: #4F1030;
+	--mc-dungeons-mulberry-3: #530F33;
+	--mc-dungeons-mulberry-2: #6C0E37;
+	--mc-dungeons-mulberry-1: #7B0D3A;
+	--mc-realms-deep-blue-7: #050029;
+	--mc-realms-deep-blue-6: #0C0248;
+	--mc-realms-deep-blue-5: #210A80;
+	--mc-realms-deep-blue-4: #401CAC;
+	--mc-realms-deep-blue-3: #643ACB;
+	--mc-realms-deep-blue-2: #8D68E0;
+	--mc-realms-deep-blue-1: #BCA4EC;
+	--mc-realms-pink-6: #7F007A;
+	--mc-realms-pink-5: #A40094;
+	--mc-realms-pink-4: #D812B4;
+	--mc-realms-pink-3: #E833C2;
+	--mc-realms-pink-2: #F460D2;
+	--mc-realms-pink-1: #FB95E2;
+	--mc-marketplace-gold-6: #94540E;
+	--mc-marketplace-gold-5: #B87918;
+	--mc-marketplace-gold-4: #DB9F21;
+	--mc-marketplace-gold-3: #FFC42B;
+	--mc-marketplace-gold-2: #FFD953;
+	--mc-marketplace-gold-1: #FFF27A;
+	--mc-marketplace-grey-6: #262423;
+	--mc-marketplace-grey-5: #3D3938;
+	--mc-marketplace-grey-4: #6B6562;
+	--mc-marketplace-grey-3: #ABA09C;
+	--mc-marketplace-grey-2: #D0C5C0;
+	--mc-marketplace-grey-1: #EDE5E2;
+	--mc-marketplace-gradient-gold: linear-gradient(270deg, #FFF27A 0%, #FFC42B 100%);
+	--mc-default--fontlist: "Noto Sans","Helvetica Neue","Helvetica","Arial","sans-serif";
+	--mc-vanilla-fontlist: "MinecraftTen","Noto Sans","Helvetica Neue","Helvetica","Arial","sans-serif";
+	--mc-dungeons-fontlist: "Minecraft-Fivev2","Noto Sans","Helvetica Neue","Helvetica","Arial","sans-serif";
+	--mc-realms-fontlist: "MinecraftTen","Noto Sans","Helvetica Neue","Helvetica","Arial","sans-serif";
+	--mc-legends-fontlist: "MinecraftSeven-v2","MinecraftSeven","Noto Sans","Helvetica Neue","Helvetica","Arial","sans-serif";
+	--mc-text-highlight-fontlist: "SFMono-Regular","Menlo","Monaco","Consolas","Liberation Mono","Courier New",monospace;
+	--mc-default-focus: #1157BE;
+	--mc-default-caution: #E2B923;
+	--mc-default-warning: #CA3636;
+	--mc-default-warning-2: #FF605E;
+}
+
+html, body {
+	height: 100vh;
+  width: 100vw;
+	margin: 0;
+}
+
+body {
+  background-color: var(--mc-core-off-black);
+  color: var(--mc-core-white);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 2rem;
+}
+
+button {
+  background: var(--mc-vanilla-green-5);
+  box-shadow: inset 0 -6px 0 var(--mc-vanilla-green-6), inset 0 6px 0 var(--mc-vanilla-green-4);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--mc-core-white);
+  font-weight: 800;
+	border: 2px solid var(--mc-core-grey-6);
+  box-shadow: 0 0 0 0 var(--mc-core-white),0 0 0 2px var(--mc-default-focus),inset 0 -6px 0 var(--mc-vanilla-green-6),inset 0 6px 0 #52a535;
+  padding: 1rem;
+	width: 35%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+}
+
+

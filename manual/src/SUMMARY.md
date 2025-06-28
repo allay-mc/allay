@@ -1,30 +1,10 @@
 # Summary
 
-[Introduction](./introduction.md)
-
-# Getting Started
-
+- [Introduction](./introduction.md)
 - [Installation](./installation.md)
-- [Hello World]()
-- [Configuration](./configuration.md)
+- [Features](./features.md)
+- [Getting Started](./getting-started.md)
+- [Scripting]()
+  - [Plugins](./plugins.md)
+  - [`init.rhai`](./init-script.md)
 
-# Guides
-
-- [Plugins](./plugins.md)
-- [Managing UUIDs]()
-- [Using TypeScript](./using-typescript.md)
-- [Publishing your Work]()
-
-# Ports
-
-- [Introduction To Resource Packs](./ports/introduction-to-resource-packs.md)
-- [Introduction To Behavior Packs](./ports/introduction-to-behavior-packs.md)
-
-# Commands
-
-- [init]()
-- [build]()
-- [health]()
-- [watch]()
-- [uuid]()
-- [doc]()

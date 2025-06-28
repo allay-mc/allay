@@ -1,0 +1,83 @@
+[package]
+name = "allay-cli"
+version = "1.0.0"
+edition = "2021"
+description = "Your Personal Creator Assistant"
+documentation = "https://allay-mc.github.io/allay"
+homepage = "https://allay-mc.github.io"
+repository = "https://github.com/allay-mc/allay"
+license = "GPL-3.0-only"
+keywords = ["add-on", "assistance", "bedrock", "creator", "minecraft"]
+categories = ["command-line-utilities", "config"]
+
+[dependencies]
+allay = { path = "../allay" }
+clap = { version = "4.5.21", features = ["cargo"] }
+textwrap-macros = "0.3.0"
+inquire = "0.7.5"
+log = { version = "0.4.22" }
+dirs = "5.0.1"
+git2 = { version = "0.20.0", optional = true }
+tera = "1"
+ron = "0.8"
+serde = { version = "1", features = ["derive"] }
+include_dir = "0.7.4"
+fern = { version = "0.7.0", features = ["colored"] }
+humantime = "2.1.0"
+codespan-reporting = "0.11.1"
+semver = "1.0.23"
+serde_json = { version = "1.0.133", features = ["preserve_order"] }
+console = "0.15.8"
+shell-escape = "0.1.5"
+warp = { version = "0.3.7", optional = true }
+tokio = { version = "1.42.0", features = ["full"], optional = true }
+slugify = "0.1.0"
+qrcode = { version = "0.14.1", optional = true }
+prettytable = "0.10.0"
+schemars = { version = "0.8.21", optional = true }
+get_if_addrs = { version = "0.5.3", optional = true }
+maud = { version = "0.26.0", optional = true }
+jsonschema = { version = "0.28.3", optional = true }
+open = { version = "5.3.2", optional = true }
+clap_complete = { version = "4.5.43", optional = true }
+clap_complete_nushell = { version = "4.5.5", optional = true }
+clap_complete_fig = { version = "4.5.2", optional = true }
+supports-color = "3.0.2"
+
+[features]
+# You can read more about features in manual/src/features.md
+default = [
+  "git",
+  "json-schema",
+  "completions",
+  "share",
+  "manual",
+]
+git = ["git2"] # Enables git related features.
+json-schema = [
+  "allay/config-schema",
+  "schemars",
+] # Enables generating JSON schema for allay.toml
+completions = [
+  "clap_complete",
+  "clap_complete_nushell",
+  "clap_complete_fig",
+] # Enables shell completions.
+share = [
+  "qrcode",
+  "get_if_addrs",
+  "tokio",
+  "warp",
+  "maud",
+  "open",
+] # Enables the `share` command.
+manual = ["open"] # Enables the `docs`/`manual` command.
+
+[build-dependencies]
+ron = "0.8"
+serde = { version = "1", features = ["derive"] }
+which = "7.0.1"
+
+[[bin]]
+name = "allay"
+path = "src/main.rs"

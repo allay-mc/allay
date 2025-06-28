@@ -1,0 +1,318 @@
+/*
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+title      Nord highlight.js                                   +
+project    nord-highlightjs                                    +
+version    0.1.0                                               +
+repository https://github.com/arcticicestudio/nord-highlightjs +
+author     Arctic Ice Studio                                   +
+email      development@arcticicestudio.com                     +
+copyright  Copyright (C) 2017                                  +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[References]
+Nord
+  https://github.com/arcticicestudio/nord
+highlight.js
+  http://highlightjs.readthedocs.io/en/latest/style-guide.html
+  http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html
+*/
+
+html.polar-night .hljs {
+  /*
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  */
+  background: var(--nord1);
+}
+
+html.polar-night .hljs,
+html.polar-night .hljs-subst {
+  color: #D8DEE9;
+}
+
+html.polar-night .hljs-selector-tag {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-selector-id {
+  color: #8FBCBB;
+  font-weight: bold;
+}
+
+html.polar-night .hljs-selector-class {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-selector-attr {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-selector-pseudo {
+  color: #88C0D0;
+}
+
+html.polar-night .hljs-addition {
+  background-color: rgba(163, 190, 140, 0.5);
+}
+
+html.polar-night .hljs-deletion {
+  background-color: rgba(191, 97, 106, 0.5);
+}
+
+html.polar-night .hljs-built_in,
+html.polar-night .hljs-type {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-class {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-function {
+  color: #88C0D0;
+}
+
+html.polar-night .hljs-function>.hljs-title {
+  color: #88C0D0;
+}
+
+html.polar-night .hljs-keyword,
+html.polar-night .hljs-literal,
+html.polar-night .hljs-symbol {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-number {
+  color: #B48EAD;
+}
+
+html.polar-night .hljs-regexp {
+  color: #EBCB8B;
+}
+
+html.polar-night .hljs-string {
+  color: #A3BE8C;
+}
+
+html.polar-night .hljs-title {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-params {
+  color: #D8DEE9;
+}
+
+html.polar-night .hljs-bullet {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-code {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-emphasis {
+  font-style: italic;
+}
+
+html.polar-night .hljs-formula {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-strong {
+  font-weight: bold;
+}
+
+html.polar-night .hljs-link:hover {
+  text-decoration: underline;
+}
+
+html.polar-night .hljs-quote {
+  color: #4C566A;
+}
+
+html.polar-night .hljs-comment {
+  color: #4C566A;
+}
+
+html.polar-night .hljs-doctag {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-meta,
+html.polar-night .hljs-meta-keyword {
+  color: #5E81AC;
+}
+
+html.polar-night .hljs-meta-string {
+  color: #A3BE8C;
+}
+
+html.polar-night .hljs-attr {
+  color: #8FBCBB;
+}
+
+html.polar-night .hljs-attribute {
+  color: #D8DEE9;
+}
+
+html.polar-night .hljs-builtin-name {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-name {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-section {
+  color: #88C0D0;
+}
+
+html.polar-night .hljs-tag {
+  color: #81A1C1;
+}
+
+html.polar-night .hljs-variable {
+  color: #D8DEE9;
+}
+
+html.polar-night .hljs-template-variable {
+  color: #D8DEE9;
+}
+
+html.polar-night .hljs-template-tag {
+  color: #5E81AC;
+}
+
+html.polar-night .abnf .hljs-attribute {
+  color: #88C0D0;
+}
+
+html.polar-night .abnf .hljs-symbol {
+  color: #EBCB8B;
+}
+
+html.polar-night .apache .hljs-attribute {
+  color: #88C0D0;
+}
+
+html.polar-night .apache .hljs-section {
+  color: #81A1C1;
+}
+
+html.polar-night .arduino .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .aspectj .hljs-meta {
+  color: #D08770;
+}
+
+html.polar-night .aspectj>.hljs-title {
+  color: #88C0D0;
+}
+
+html.polar-night .bnf .hljs-attribute {
+  color: #8FBCBB;
+}
+
+html.polar-night .clojure .hljs-name {
+  color: #88C0D0;
+}
+
+html.polar-night .clojure .hljs-symbol {
+  color: #EBCB8B;
+}
+
+html.polar-night .coq .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .cpp .hljs-meta-string {
+  color: #8FBCBB;
+}
+
+html.polar-night .css .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .css .hljs-keyword {
+  color: #D08770;
+}
+
+html.polar-night .diff .hljs-meta {
+  color: #8FBCBB;
+}
+
+html.polar-night .ebnf .hljs-attribute {
+  color: #8FBCBB;
+}
+
+html.polar-night .glsl .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .groovy .hljs-meta:not(:first-child) {
+  color: #D08770;
+}
+
+html.polar-night .haxe .hljs-meta {
+  color: #D08770;
+}
+
+html.polar-night .java .hljs-meta {
+  color: #D08770;
+}
+
+html.polar-night .ldif .hljs-attribute {
+  color: #8FBCBB;
+}
+
+html.polar-night .lisp .hljs-name {
+  color: #88C0D0;
+}
+
+html.polar-night .lua .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .moonscript .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .nginx .hljs-attribute {
+  color: #88C0D0;
+}
+
+html.polar-night .nginx .hljs-section {
+  color: #5E81AC;
+}
+
+html.polar-night .pf .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .processing .hljs-built_in {
+  color: #88C0D0;
+}
+
+html.polar-night .scss .hljs-keyword {
+  color: #81A1C1;
+}
+
+html.polar-night .stylus .hljs-keyword {
+  color: #81A1C1;
+}
+
+html.polar-night .swift .hljs-meta {
+  color: #D08770;
+}
+
+html.polar-night .vim .hljs-built_in {
+  color: #88C0D0;
+  font-style: italic;
+}
+
+html.polar-night .yaml .hljs-meta {
+  color: #D08770;
+}
