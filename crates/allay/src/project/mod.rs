@@ -630,6 +630,11 @@ impl Project {
                     (localization::keys::pack_name(), pack_name),
                     (localization::keys::pack_description(), pack_desc),
                 ] {
+                    if !value.has_translation() {
+                        log::error!("Missing translation for {}", key);
+                        result = Err(BuildError);
+                        continue;
+                    }
                     if let Err(error) = localization::add_translation_with_fallbacks_to_files(
                         &texts_dir,
                         key,

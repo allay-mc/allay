@@ -147,6 +147,16 @@ pub enum OptionallyLocalized<T> {
     Unlocalized(T),
 }
 
+impl<T> OptionallyLocalized<T> {
+    /// Returns `true` when any translation exists.
+    pub fn has_translation(&self) -> bool {
+        match self {
+            Self::Localized(map) => !map.is_empty(),
+            Self::Unlocalized(_) => true,
+        }
+    }
+}
+
 /// File extension for Minecraft language files.
 pub const LANGUAGE_FILE_EXTENSION: &str = "lang";
 
@@ -209,8 +219,6 @@ where
             OptionallyLocalized::Localized(localized) =>
             {
                 #[allow(clippy::expect_used)]
-                // FIXME: this expect triggers when for example
-                //        project.description lacks any entry
                 fallback_handler(localized, *language).expect("empty translation")
             }
             OptionallyLocalized::Unlocalized(value) => value,
