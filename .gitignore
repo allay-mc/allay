@@ -1,2 +1,10 @@
+# Manual
 /manual/site
+
+# Rust
 /target
+
+# JavaScript/TypeScript
+package-lock.json
+node_modules
+deno.lock

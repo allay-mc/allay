@@ -11,6 +11,8 @@ version = "{{ project_version }}"
 license = "{{ project_license }}"
 min-engine-version = "{{ project_min_engine_version }}"
 
+# TODO: module dependencies
+
 [localization]
 primary-language = "{{ project_primary_language }}"
 
