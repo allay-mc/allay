@@ -375,15 +375,18 @@ impl Project {
             Ok(content) => {
                 let mut reader = Cursor::new(content);
                 match reader.read_u32::<BigEndian>() {
-                    Ok(num) => Some(num),
+                    Ok(num) => {
+                        log::debug!("Extracted build num ({})", num);
+                        Some(num)
+                    },
                     Err(error) => {
-                        log::error!("Failed to get build num; using 0: {}", error);
+                        log::debug!("Failed to get build num: {}", error);
                         None
                     }
                 }
             }
             Err(error) => {
-                log::error!("Failed to get num: {}", error);
+                log::debug!("Failed to get num: {}", error);
                 None
             }
         }
