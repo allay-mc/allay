@@ -16,6 +16,11 @@ min-engine-version = "{{ project_min_engine_version }}"
 [localization]
 primary-language = "{{ project_primary_language }}"
 
+[[plugin]]
+name = "bundle js/ts"
+run = "npx"
+args = ["webpack"]
+
 [build]
 extra-watch = ["plugins"]
 

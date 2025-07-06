@@ -2,6 +2,11 @@
   "private": true,
   "dependencies": {
     "@minecraft/server": "^2.0.0-beta.1.21.80-preview.27",
-    "@minecraft/server-ui": "^2.0.0-beta.1.21.80-preview.22"
+    "@minecraft/server-ui": "^2.0.0-beta.1.21.80-preview.22",
+    "ts-node": "^10.9.2",
+    "ts-loader": "^9.5.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
   }
 }
