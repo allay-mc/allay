@@ -25,7 +25,7 @@ pub(crate) fn minecraft_versions() -> Option<Vec<MinecraftVersion>> {
             return None;
         }
     };
-    log::info!("Pulling latest commit for minecraft versions");
+    log::info!("Pulling latest commit for minecraft versions; this may take a few minutes");
     if let Err(error) = utils::git::pull(&repo) {
         log::error!("Failed to pull repository: {}", error);
     }
