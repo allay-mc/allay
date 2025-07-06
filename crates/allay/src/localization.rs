@@ -209,6 +209,8 @@ where
             OptionallyLocalized::Localized(localized) =>
             {
                 #[allow(clippy::expect_used)]
+                // FIXME: this expect triggers when for example
+                //        project.description lacks any entry
                 fallback_handler(localized, *language).expect("empty translation")
             }
             OptionallyLocalized::Unlocalized(value) => value,
