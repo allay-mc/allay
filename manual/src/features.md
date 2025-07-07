@@ -45,5 +45,11 @@ This feature enables the `manual`/`docs` command of the Allay command-line inter
 
 This feature is **enabled by default**.
 
+## `watch`
+
+This feature enables the `watch` command of the Allay command-line interface which can be used to automatically rebuild the project on changes.
+
+This feature is **enabled by default**.
+
 [command-line completions]: https://en.wikipedia.org/wiki/Command-line_completion
 [git]: https://git-scm.com/

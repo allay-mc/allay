@@ -259,9 +259,16 @@ pub struct Build {
     /// Paths to directories or files that should trigger a rebuild when changed.
     /// `src` and `allay.toml` may not be listed as they trigger a rebuild by default.
     ///
-    /// The `watch` command utilizes these paths as well for rebuilds..
+    /// The `watch` command utilizes these paths as well for rebuilds.
     #[serde(default)]
     pub extra_watch: Vec<PathBuf>,
+
+    /// Paths to directories or files that should be ignored when watching for changes.
+    ///
+    /// This overrides paths mentioned in `extra_watch`. The `watch` command utilizes
+    /// these paths as well for rebuilds.
+    #[serde(default)]
+    pub ignore_watch: Vec<PathBuf>,
 }
 
 impl Default for Build {
@@ -270,6 +277,7 @@ impl Default for Build {
             debug: true,
             sync: true,
             extra_watch: Default::default(),
+            ignore_watch: Default::default(),
         }
     }
 }

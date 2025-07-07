@@ -86,6 +86,7 @@ pub fn source_has_content(Project { root, .. }: &Project, pack: &Pack) -> bool {
 ///
 /// If the time cannot be dertemined, `true` is returned as well.
 pub fn source_has_changed(Project { root, config, .. }: &Project, profile: Profile) -> bool {
+    // TODO: see also: watch/poll.rs
     let mut significant_paths: Vec<PathBuf> = vec![
         crate::paths::project::source(root),
         crate::paths::project::config(root),
@@ -94,6 +95,8 @@ pub fn source_has_changed(Project { root, config, .. }: &Project, profile: Profi
     for path in &config.build.extra_watch {
         significant_paths.push(path.to_path_buf());
     }
+
+    // TODO: `config.build.ignore_watch`
 
     let last_build_path = crate::paths::project::last_build_for_profile(root, profile);
 

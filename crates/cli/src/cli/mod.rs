@@ -14,6 +14,7 @@ mod ext;
 mod give;
 mod share;
 mod uuid;
+mod watch;
 
 pub(crate) fn cmd() -> Command {
     Command::new("allay")
@@ -76,6 +77,8 @@ pub(crate) fn cmd() -> Command {
             #[cfg(feature = "share")]
             share::cmd(),
             uuid::cmd(),
+            #[cfg(feature = "watch")]
+            watch::cmd(),
         ])
 }
 
@@ -96,7 +99,9 @@ pub(crate) fn run(matches: &ArgMatches) -> process::ExitCode {
         #[cfg(feature = "share")]
         Some(("share", m)) => share::run(m),
         Some(("uuid", m)) => uuid::run(m),
+        #[cfg(feature = "watch")]
+        Some(("watch", m)) => watch::run(m),
         Some((name, _)) => unreachable!("no case for subcommand {}", name),
-        None => unreachable!(),
+        None => unreachable!("help should be displayed"),
     }
 }

@@ -52,6 +52,7 @@ default = [
   "completions",
   "share",
   "manual",
+  "watch",
 ]
 git = ["git2"] # Enables git related features.
 json-schema = [
@@ -72,6 +73,7 @@ share = [
   "open",
 ] # Enables the `share` command.
 manual = ["open"] # Enables the `docs`/`manual` command.
+watch = [] # Enables the `watch` command.
 
 [build-dependencies]
 ron = "0.8"

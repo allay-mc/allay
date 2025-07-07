@@ -402,8 +402,8 @@ impl Project {
         let mut result = Ok(());
         log::info!("Building project");
 
-        log::trace!("{:#?}", &context);
-        log::trace!("{:#?}", &self.config);
+        log::trace!("context: {:#?}", &context);
+        log::trace!("config: {:#?}", &self.config);
 
         let start_time = SystemTime::now();
 
