@@ -23,4 +23,3 @@ args = ["webpack"]
 
 [build]
 extra-watch = ["plugins"]
-

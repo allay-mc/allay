@@ -5,4 +5,5 @@
   namespace: "std",
   description: "A template for projects that make use of scripting capabilities.",
   authors: ["Jonas da Silva"],
+  exclude: ["^node_modules/", "^package-lock\\.json$"],
 )

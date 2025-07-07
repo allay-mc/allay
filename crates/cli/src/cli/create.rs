@@ -1,7 +1,8 @@
 use std::{
     env, fmt, fs,
     path::{Path, PathBuf},
-    process::{self, ExitCode}, str::FromStr,
+    process::{self, ExitCode},
+    str::FromStr,
 };
 
 use allay::{localization, project::health::generate_project_id};
@@ -74,7 +75,11 @@ pub(crate) fn run(matches: &ArgMatches) -> process::ExitCode {
         Ok(_) => Ok(inquire::validator::Validation::Valid),
         Err(error) => Ok(inquire::validator::Validation::Invalid(error.into())),
     };
-    let project_version = match inquire::Text::new("Initial version of project").with_default("0.1.0").with_validator(semver_validator).prompt() {
+    let project_version = match inquire::Text::new("Initial version of project")
+        .with_default("0.1.0")
+        .with_validator(semver_validator)
+        .prompt()
+    {
         Ok(value) => value,
         Err(error) => {
             log::error!("{}", error);
@@ -168,6 +173,8 @@ pub(crate) fn run(matches: &ArgMatches) -> process::ExitCode {
     };
 
     #[cfg(feature = "git")]
+    // TODO: factor out the default somewhere more centralized and perhaps then
+    //       embed with include_str!() macro
     let versions = resources::minecraft_versions().unwrap_or(vec![MinecraftVersion {
         version: "1.21.40".to_string(),
         date: "22-10-2024".to_string(),
@@ -235,6 +242,8 @@ pub(crate) fn run(matches: &ArgMatches) -> process::ExitCode {
     }
 
     if let Some(template) = template {
+        // TODO: project_min_engine_version may be something like 1.21.80.3 so either accept it or
+        //       trim it
         let mut context = tera::Context::new();
         context.insert("allay_version", &allay::VERSION);
         context.insert("project_name", &project_name);
@@ -291,7 +300,13 @@ fn generate_scaffolding(
     context: &tera::Context,
 ) {
     let root = &template.path;
-    if let Err(error) = utils::fs::copy_template_dir_with_rendering(root, destination, context) {
+    if let Err(error) = utils::fs::copy_template_dir_with_rendering(
+        root,
+        destination,
+        destination,
+        context,
+        &template.metadata.exclude,
+    ) {
         log::error!("Error while copying template directory: {}", error);
     }
 }

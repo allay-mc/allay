@@ -100,8 +100,10 @@ pub(crate) mod fs {
     use std::{
         fmt, fs,
         io::{self, Read, Seek, SeekFrom},
-        path::Path,
+        path::{Path, PathBuf},
     };
+
+    use regex::Regex;
 
     pub(crate) fn copy_included_dir(
         source: &include_dir::Dir,
@@ -161,22 +163,58 @@ pub(crate) mod fs {
 
     impl std::error::Error for CopyTemplateError {}
 
-    /// Copyies a directory from `source` to `destination` by applying template
+    /// Copies a directory from `source` to `destination` by applying template
     /// rendering.
     pub(crate) fn copy_template_dir_with_rendering(
         source: &Path,
         destination: &Path,
+        destination_root: &Path,
         context: &tera::Context,
+        exclude_paths: &Vec<Regex>,
     ) -> Result<(), CopyTemplateError> {
-        for entry in source.read_dir()? {
+        'top_level_dir: for entry in source.read_dir()? {
             let entry = entry?;
+
             let abs_path = entry.path();
             let path = abs_path.strip_prefix(source).unwrap();
             let output_path = destination.join(path);
+            let mut path_relative_to_root = output_path
+                .strip_prefix(destination_root)
+                .unwrap()
+                .as_os_str()
+                .to_string_lossy()
+                .into_owned();
+            if abs_path.is_dir() {
+                path_relative_to_root.push('/');
+            }
+
+            log::trace!("destination = {:?}", destination);
+            log::trace!("destination_root = {:?}", destination_root);
+            log::trace!("abs_path = {:?}", abs_path);
+            log::trace!("path = {:?}", path);
+            log::trace!("output_path = {:?}", output_path);
+            log::trace!("path_relative_to_root = {:?}", path_relative_to_root);
+
+            for ignore_pattern in exclude_paths {
+                if ignore_pattern.is_match(&path_relative_to_root) {
+                    log::trace!(
+                        "Ignoring {} because it matches {}",
+                        path_relative_to_root,
+                        ignore_pattern
+                    );
+                    continue 'top_level_dir;
+                }
+            }
 
             if abs_path.is_dir() {
                 fs::create_dir(&output_path)?;
-                copy_template_dir_with_rendering(&abs_path, &output_path, context)?;
+                copy_template_dir_with_rendering(
+                    &abs_path,
+                    &output_path,
+                    destination_root,
+                    context,
+                    exclude_paths,
+                )?;
             } else if abs_path.is_file() {
                 if abs_path
                     .file_name()

@@ -16,4 +16,3 @@ primary-language = "{{ project_primary_language }}"
 
 [build]
 extra-watch = ["plugins"]
-

@@ -5,6 +5,7 @@ use codespan_reporting::{
     files::{Files, SimpleFile},
     term::{self, termcolor::StandardStream},
 };
+use regex::Regex;
 use std::{fmt, fs, path::PathBuf, str::FromStr};
 
 pub const MAX_SUPPORTED_FORMAT_VERSION: semver::Version = semver::Version::new(1, 0, 0);
@@ -36,12 +37,14 @@ pub(crate) struct TemplateMetadata {
 
     /// A set of authors who contributed to the template.
     pub(crate) authors: Vec<String>,
-    // /// Glob patterns of files/directories to not copy when creating new project.
-    // ///
-    // /// The file `template_metadata.ron` file is never copied so it is not necessary to include it
-    // /// in this field.
-    // #[serde(default)]
-    // pub(crate) exclude: Vec<String>,
+
+    /// Regular Expression patterns of files/directories to not copy when creating new project.
+    ///
+    /// The file `template_metadata.ron` file is never copied so it is not necessary to include it
+    /// in this field.
+    #[serde(default)]
+    #[serde(with = "serde_regex")]
+    pub(crate) exclude: Vec<Regex>,
 }
 
 impl fmt::Display for TemplateMetadata {
