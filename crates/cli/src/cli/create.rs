@@ -242,8 +242,6 @@ pub(crate) fn run(matches: &ArgMatches) -> process::ExitCode {
     }
 
     if let Some(template) = template {
-        // TODO: project_min_engine_version may be something like 1.21.80.3 so either accept it or
-        //       trim it
         let mut context = tera::Context::new();
         context.insert("allay_version", &allay::VERSION);
         context.insert("project_name", &project_name);

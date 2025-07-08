@@ -103,6 +103,13 @@ pub(crate) fn minecraft_versions() -> Option<Vec<MinecraftVersion>> {
                 return None;
             }
         };
+        let version = match semver_version(version) {
+            Some(val) => val,
+            None => {
+                log::warn!("version.json at {} has an invalid format", data_path.display());
+                return None;
+            }
+        };
         let date = match version_and_date.get("date") {
             Some(date) => date,
             None => {
@@ -148,4 +155,12 @@ where
     P: AsRef<Path>,
 {
     Repository::open_ext(path, RepositoryOpenFlags::NO_SEARCH, iter::empty::<OsStr>())
+}
+
+fn semver_version(ver: &str) -> Option<String> {
+    let mut segments = ver.split('.');
+    let major = segments.next()?;
+    let minor = segments.next()?;
+    let patch = segments.next()?;
+    Some(format!("{}.{}.{}", major, minor, patch))
 }
