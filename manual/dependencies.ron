@@ -1,5 +1,5 @@
 [
-  (name: "mdbook", version: "0.4.43"),
-  (name: "mdbook-alerts", version: "0.7.0"),
+  (name: "mdbook", version: "0.4.51"),
+  (name: "mdbook-alerts", version: "0.8.0"),
   (name: "mdbook-toc", version: "0.14.2"),
 ]
