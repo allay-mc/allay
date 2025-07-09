@@ -14,20 +14,7 @@
 - 📖 [Read the Manual](https://allay-mc.github.io/allay/)
 - 📦 [Crate](https://crates.io/crates/allay)
 
-
-## Quickstart
-
-```bash
-# create new project
-allay create
-
-# populate add-on
-$EDITOR src/BP/hello.json
-
-# build add-on
-allay build
-```
-
+![Preview GIF](./tapes/create.gif)
 
 ## Versioning
 
