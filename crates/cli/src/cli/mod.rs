@@ -1,5 +1,3 @@
-// TODO: watch command
-
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use std::process;
 use supports_color::Stream;

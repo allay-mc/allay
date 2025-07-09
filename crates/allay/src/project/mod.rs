@@ -378,7 +378,7 @@ impl Project {
                     Ok(num) => {
                         log::debug!("Extracted build num ({})", num);
                         Some(num)
-                    },
+                    }
                     Err(error) => {
                         log::debug!("Failed to get build num: {}", error);
                         None
@@ -685,7 +685,27 @@ impl Project {
         }
 
         log::debug!("Running plugins");
-        let engine = plugin::engine(&self.config.env);
+        let mut engine = plugin::engine(&self.config.env);
+        if crate::paths::project::script_init(&self.root).is_file() {
+            // TODO: init script has no access to environment (see also: apply_environment)
+            let init_script_ast =
+                match engine.compile_file(crate::paths::project::script_init(&self.root)) {
+                    Ok(ast) => ast,
+                    Err(error) => {
+                        log::error!("Error while compiling init.rhai: {}", error);
+                        return Err(BuildError);
+                    }
+                };
+            let init_module =
+                match rhai::Module::eval_ast_as_new(rhai::Scope::new(), &init_script_ast, &engine) {
+                    Ok(module) => module,
+                    Err(error) => {
+                        log::error!("Error while evaluating init.rhai: {}", error);
+                        return Err(BuildError);
+                    }
+                };
+            engine.register_global_module(init_module.into());
+        }
         let mut unhandled_skips = context.skip_plugins.clone();
         for plugin in &self.config.plugins {
             // TODO: prefix log messages with plugin name for easier identifying

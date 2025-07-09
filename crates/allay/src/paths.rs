@@ -10,6 +10,11 @@ pub mod project {
         root.join("allay.toml")
     }
 
+    /// The path to the optional script initialization (`init.rhai`) file.
+    pub fn script_init(root: &Path) -> PathBuf {
+        root.join("init.rhai")
+    }
+
     /// The path to the lock file of a project.
     pub fn lock(root: &Path) -> PathBuf {
         root.join("allay.lock")
