@@ -1,3 +1,3 @@
-import { registerCustomCommands } from "./commands/index.ts";
+import { registerCustomCommands } from "./commands/index";
 
 registerCustomCommands();

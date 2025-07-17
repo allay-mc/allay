@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src/BP",
     "module": "ES2020",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "target": "es6",
     "lib": ["es2017", "dom"],
     "removeComments": true,

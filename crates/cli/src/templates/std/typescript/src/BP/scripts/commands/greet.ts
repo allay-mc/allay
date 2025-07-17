@@ -8,7 +8,7 @@ import {
   CustomCommandOrigin,
   Player,
 } from "@minecraft/server";
-import { namespace } from "../config.ts";
+import { namespace } from "../config";
 
 export const command: CustomCommand = {
   name: `${namespace}:greet`,

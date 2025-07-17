@@ -1,5 +1,5 @@
 import { StartupEvent, system } from "@minecraft/server";
-import * as greet from "./greet.ts";
+import * as greet from "./greet";
 
 export function registerCustomCommands() {
   system.beforeEvents.startup.subscribe((init: StartupEvent) => {
