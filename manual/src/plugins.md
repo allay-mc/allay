@@ -7,6 +7,14 @@
 ---
 
 Plugins are programs that extend Allay's functionality. They usually take the **source files** and transforms them in some way.
+There are a few plugins created by the Allay developers themselves that you can use right away! All of them are written in the
+[Ruby programming language][Ruby] so make sure to install it before utilizing the plugins. Within your project run the following
+command:
+
+```console,icon=%gnubash,fp=Console
+mkdir plugins
+git submodule add https://github.com/allay-mc/plugins.git plugins/thirdparty
+```
 
 ## Filters
 
@@ -89,8 +97,6 @@ For more information, read [Environment](#environment).
 > when = 'allay::is_command("pwsh") || allay::os == "windows"'
 > ```
 
-[Rhai]: https://rhai.rs/
-
 ## Environment
 
 Both filters and plugins themselves have access to the same environment. The base environment is inherited from the
@@ -105,3 +111,5 @@ On top of that, Allay provides the following environment variables:
 - `ALLAY_PROJECT_ROOT` which is the path to the directory containing `allay.toml` of the current project.
 - `ALLAY_VERSION` which reflects the vesion of Allay currently used by the running machine.
 
+[Rhai]: https://rhai.rs/
+[Ruby]: https://www.ruby-lang.org/
